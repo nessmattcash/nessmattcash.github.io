@@ -3,6 +3,8 @@
 <head>
   <title>Parcours</title>
   <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/alerts.js" defer></script>
 </head>
 <body>
 
@@ -19,7 +21,7 @@
 		<!-- SECTION: Navigation -->
 	<div id="top" class="navigation">
 		<div class="navigation__wrapper wrapper--large">
-			<a class="navigation__logo logo" href="#0"><img src="img/logo.png" alt="" width="70"></a>
+			<a class="rot" class="navigation__logo logo" href="#0"><img src="img/logo.png" alt="" width="70"></a>
 			<nav class="navigation__container">
 				<ul class="navigation__list">
 					<li><a href="index.html">Home</a></li>
@@ -28,7 +30,7 @@
 					<li><a href="contact.html">Info</a></li>
 				</ul>
 			</nav>
-            <a class="navigation__logo logo" href="#0"><img src="img/photo.png" alt="" width="70"></a>
+            <a class="imgP" class="navigation__logo logo" href="#0"><img src="img/photo.png" alt="" width="70"></a>
 
 			
 			
@@ -48,15 +50,15 @@
             <center>
             <div style="max-width: 1000px; text-align: left;">
                         
-                    <img src="img/esprit.png" alt="Your Image" width="100"  style="max-width: 100%; height: auto; float: left; margin-right: 20px;">
-                    <h3>ESPRIT</h3>
-                    <p>Computer Sciences Engineering, IT (September 2023 - Present)</p><br>
-                    <img src="img/fst.png" alt="Your Image" width="100"  style="max-width: 100%; height: auto; float: left; margin-right: 20px;">
-                    <h3>Faculty of Science Manar (FST)</h3>
-                    <p>Diploma Preparatory Cycle, Maths | Physics (September 2022 - June 2023)</p><br>
-                    <img src="img/issat.jpg" alt="Your Image" width="100"  style="max-width: 100%; height: auto; float: left; margin-right: 20px;">
-                    <h3>Higher Institute of Applied Sciences and Technology Mahdia (ISSAT)</h3>
-                    <p>1st year Preparatory Cycle (1st year), Maths | Physics (September 2020 - June 2022)</p>
+                    <img class="imgP" src="img/esprit.png" alt="Your Image" width="100"  style="max-width: 100%; height: auto; float: left; margin-right: 20px;">
+                    <a href="#"><h3 onclick="showAlertESPRIT()">ESPRIT</h3></a>
+                    <p class="text">Computer Sciences Engineering, IT (September 2023 - Present)</p><br>
+                    <img class="imgP" src="img/fst.png" alt="Your Image" width="100"  style="max-width: 100%; height: auto; float: left; margin-right: 20px;">
+                    <a href="#"><h3 onclick="showAlertFST()">Faculty of Science Manar (FST)</h3></a>
+                    <p class="text">Diploma Preparatory Cycle, Maths | Physics (September 2022 - June 2023)</p><br>
+                    <img class="imgP" src="img/issat.jpg" alt="Your Image" width="100"  style="max-width: 100%; height: auto; float: left; margin-right: 20px;">
+                    <a href="#"><h3 onclick="showAlertIssat()">Higher Institute of Applied Sciences and Technology Mahdia (ISSAT)</h3></a>
+                    <p class="text">1st year Preparatory Cycle (1st year), Maths | Physics (September 2020 - June 2022)</p>
                     
             </div>  
         </center>

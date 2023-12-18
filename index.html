@@ -3,7 +3,10 @@
 <head>
   <title>Acceuil</title>
   <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/test_contact.js" defer></script>
 </head>
+
 <body>
 
 	<!-- SECTION: Splashscreen -->
@@ -19,7 +22,7 @@
 		<!-- SECTION: Navigation -->
 	<div id="top" class="navigation">
 		<div class="navigation__wrapper wrapper--large">
-			<a class="navigation__logo logo" href="#0"><img src="img/logo.png" alt="" width="70"></a>
+			<a class="rot" class="navigation__logo logo" href="#0"><img src="img/logo.png" alt="" width="70"></a>
 			<nav class="navigation__container">
 				<ul class="navigation__list">
 					<li><a href="index.html">Home</a></li>
@@ -28,7 +31,7 @@
 					<li><a href="contact.html">Info</a></li>
 				</ul>
 			</nav>
-			<a class="navigation__logo logo" href="#0"><img src="img/photo.png" alt="" width="70"></a>
+			<a class="imgP" class="navigation__logo logo" href="#0"><img src="img/photo.png" alt="" width="70"></a>
 			
 			
 		</div>
@@ -75,22 +78,44 @@
 		
 		<!-- END SECTION: About -->
 
+		<style>
+			.error {
+			  color: red;
+			}
 			
+		  </style>	
 		<!-- SECTION: Contact -->
 		<section id="contact" class="contact">
+			
 			<h2 class="contact__heading title">Contact Me</h2>
 			<div class="contact__wrapper wrapper--large">
 				<div class="contact__visual">
 					<img src="img/contact-visual.png" >
 				</div>
 				<!-- Simple form setup: formspree.io -->
+				
 				<form class="contact__form">
-					<input class="contact__form-el contact__form-el--name" type="text" placeholder="Your Name" spellcheck="false">
-					<input class="contact__form-el contact__form-el--email" type="email" placeholder="Your Email" spellcheck="false">
-					<textarea class="contact__form-el contact__form-el--message" placeholder="Your Message"></textarea>
-					<input class="contact__form-el contact__form-el--submit" type="submit" value="Send">
+					
+					<input class="contact__form-el contact__form-el--name" id="Name" name="Name" type="text" placeholder="Your Name" spellcheck="false" oninput="test_button()">
+					<input class="contact__form-el contact__form-el--email" id="email" name="email" type="email" placeholder="Your Email" spellcheck="false" oninput="test_button()">
+					<textarea class="contact__form-el contact__form-el--message" id="Message" name="Message" placeholder="Your Message" oninput="test_button()"></textarea>
+					<span id="nameError" class="error"></span>
+					<br>
+					<span id="emailError" class="error"></span>
+					<br>
+					<span id="msgError" class="error"></span>
+					<br>
+					<input class="contact__form-el contact__form-el--submit" id="send" name="send" type="submit" value="Send" disabled>
+					
 				</form>
+				
 			</div>
+			<span id="nameError" class="error"></span>
+					<br>
+					<span id="emailError" class="error"></span>
+					<br>
+					<span id="msgError" class="error"></span>
+					<br>
 		</section>
 		<!-- END SECTION: Contact -->
 	</main>
@@ -105,6 +130,7 @@
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	<script src="js/functions-min.js"></script>
+
 
 </body>
 </html>
