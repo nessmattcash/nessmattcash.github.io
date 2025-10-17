@@ -1262,15 +1262,15 @@
           </div>
         </div>
       </div>
-      <form class="contact-form fade-in">
+      <form class="contact-form fade-in" id="contactForm">
         <div class="form-group">
-          <input type="text" class="form-input" placeholder="Your Name" required>
+          <input type="text" class="form-input" id="name" placeholder="Your Name" required>
         </div>
         <div class="form-group">
-          <input type="email" class="form-input" placeholder="Your Email" required>
+          <input type="email" class="form-input" id=" email" placeholder="Your Email" required>
         </div>
         <div class="form-group">
-          <textarea class="form-input form-textarea" placeholder="Your Message" required></textarea>
+          <textarea class="form-input form-textarea" id="message" placeholder="Your Message" required></textarea>
         </div>
         <button type="submit" class="submit-btn">Send Message</button>
       </form>
@@ -1302,6 +1302,25 @@
       <div class="modal-technologies" id="modalTechnologies"></div>
     </div>
   </div>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function() {
+      emailjs.init("iMoUrWJXvofUOWOcE"); // Your Public Key
+    })();
+    document.getElementById('contact-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      emailjs.send("service_y5wq4gm", "template_g9dkfoq", {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        message: document.getElementById('message').value
+      }).then(function() {
+        alert('Message sent! Thanks for reaching out.');
+      }, function(error) {
+        alert('Error: ' + error.text + '. Try again or email me directly at azizmehdii21@gmail.com.');
+      });
+    });
+  </script>
+
 
   <script>
     // Loading Screen
