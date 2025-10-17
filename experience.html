@@ -1,156 +1,1533 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Experience</title>
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aziz Mehdi | Experience</title>
+  <link rel="icon" type="image/x-icon" href="img/mylogo.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #0d223f;
+      --secondary: #1a365d;
+      --accent: #64ffda;
+      --accent-light: #8affff;
+      --text-primary: #e6f1ff;
+      --text-secondary: #a8b2d1;
+      --card-bg: rgba(30, 61, 107, 0.7);
+      --transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
+      --glow: 0 0 15px rgba(100, 255, 218, 0.5);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Calibre', 'Inter', 'San Francisco', 'SF Pro Text', -apple-system, system-ui, sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--primary);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* Loading Screen */
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--primary);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+    .loading-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loader {
+      width: 80px;
+      height: 80px;
+      position: relative;
+    }
+
+    .loader-square {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: var(--accent);
+      animation: loaderMove 1.5s infinite ease-in-out;
+    }
+
+    .loader-square:nth-child(1) { top: 0; left: 0; animation-delay: 0s; }
+    .loader-square:nth-child(2) { top: 0; right: 0; animation-delay: 0.2s; }
+    .loader-square:nth-child(3) { bottom: 0; right: 0; animation-delay: 0.4s; }
+    .loader-square:nth-child(4) { bottom: 0; left: 0; animation-delay: 0.6s; }
+
+    @keyframes loaderMove {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(0.5); opacity: 0.5; }
+    }
+
+    /* Dynamic Background */
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .bg-square {
+      position: absolute;
+      background: rgba(100, 255, 218, 0.05);
+      border: 1px solid rgba(100, 255, 218, 0.15);
+      border-radius: 5px;
+      animation: float 15s infinite linear;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+      50% { transform: translateY(-20px) rotate(180deg); opacity: 0.3; }
+      100% { transform: translateY(0) rotate(360deg); opacity: 0.7; }
+    }
+
+    /* Navigation */
+    .navigation {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 1.2rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: rgba(13, 34, 63, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      transition: var(--transition);
+      border-bottom: 1px solid rgba(100, 255, 218, 0.1);
+    }
+
+    .navigation.scrolled {
+      padding: 0.8rem 2rem;
+      box-shadow: 0 10px 30px -10px rgba(2, 12, 27, 0.7);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--accent);
+    }
+
+    .logo img {
+      height: 35px;
+      margin-right: 10px;
+      transition: var(--transition);
+    }
+
+    .logo:hover img {
+      transform: rotate(15deg);
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+
+    .nav-links li {
+      margin-left: 1.8rem;
+    }
+
+    .nav-links a {
+      color: var(--text-primary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 0.5rem 0;
+      position: relative;
+      transition: var(--transition);
+      font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--accent);
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--accent);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* Hero Section */
+    .experience-hero {
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      padding: 8rem 2rem 4rem;
+      position: relative;
+      text-align: center;
+    }
+
+    .experience-hero-content {
+      max-width: 1000px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .experience-hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+      text-shadow: 0 0 10px rgba(100, 255, 218, 0.3);
+    }
+
+    .experience-hero p {
+      font-size: 1.3rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Generation Animation */
+    .generation-animation {
+      display: inline-block;
+      position: relative;
+      color: var(--accent);
+    }
+
+    .generation-animation::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: bottom right;
+      transition: transform 0.5s ease-out;
+    }
+
+    .generation-animation.animate::after {
+      transform: scaleX(1);
+      transform-origin: bottom left;
+    }
+
+    /* Experience Section */
+    .section {
+      padding: 4rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      margin-bottom: 3rem;
+      font-size: 2rem;
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+
+    .section-title::after {
+      content: '';
+      display: block;
+      height: 1px;
+      width: 300px;
+      background-color: var(--text-secondary);
+      margin-left: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    /* Enhanced Timeline */
+    .experience-timeline {
+      position: relative;
+      margin: 0 auto;
+      padding: 2rem 0;
+    }
+
+    .experience-timeline::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(to bottom, var(--accent), var(--secondary));
+      transform: translateX(-50%);
+      border-radius: 10px;
+    }
+
+    .experience-card {
+      background-color: var(--card-bg);
+      border-radius: 15px;
+      border: 1px solid rgba(100, 255, 218, 0.1);
+      transition: var(--transition);
+      position: relative;
+      box-shadow: 0 10px 30px -10px rgba(2, 12, 27, 0.7);
+      width: 45%;
+      margin: 2rem 0;
+      overflow: hidden;
+    }
+
+    .experience-card:nth-child(odd) {
+      margin-right: 55%;
+    }
+
+    .experience-card:nth-child(even) {
+      margin-left: 55%;
+    }
+
+    .experience-card:hover {
+      transform: translateY(-10px);
+      border-color: var(--accent);
+      box-shadow: var(--glow);
+    }
+
+    .experience-card::before {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: var(--accent);
+      border-radius: 50%;
+      top: 50%;
+      transform: translateY(-50%);
+      box-shadow: 0 0 15px rgba(100, 255, 218, 0.5);
+    }
+
+    .experience-card:nth-child(odd)::before {
+      right: -32px;
+    }
+
+    .experience-card:nth-child(even)::before {
+      left: -32px;
+    }
+
+    .experience-content {
+      padding: 2rem;
+    }
+
+    .experience-header {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 1.5rem;
+    }
+
+    .experience-logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--accent);
+      box-shadow: 0 0 20px rgba(100, 255, 218, 0.3);
+      margin-right: 1.5rem;
+    }
+
+    .experience-info {
+      flex: 1;
+    }
+
+    .experience-title {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .experience-company {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+    }
+
+    .experience-period {
+      color: var(--accent);
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+    }
+
+    .experience-description {
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .experience-technologies {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tech-tag {
+      background: rgba(100, 255, 218, 0.1);
+      color: var(--accent);
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+      transition: var(--transition);
+    }
+
+    .tech-tag:hover {
+      background: rgba(100, 255, 218, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .experience-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .experience-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: var(--transition);
+      padding: 0.7rem 1.5rem;
+      border: 1px solid var(--accent);
+      border-radius: 4px;
+    }
+
+    .experience-link:hover {
+      background: rgba(100, 255, 218, 0.1);
+      transform: translateY(-2px);
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 25, 47, 0.95);
+      z-index: 2000;
+      overflow-y: auto;
+      padding: 2rem;
+    }
+
+    .modal-content {
+      background: var(--secondary);
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 3rem;
+      border-radius: 15px;
+      position: relative;
+      border: 1px solid var(--accent);
+      box-shadow: var(--glow);
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      color: var(--accent);
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: var(--transition);
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+
+    .close-modal:hover {
+      background: rgba(100, 255, 218, 0.1);
+      transform: rotate(90deg);
+    }
+
+    .modal-title {
+      font-size: 2.2rem;
+      margin-bottom: 1.5rem;
+      color: var(--accent);
+    }
+
+    .modal-period {
+      color: var(--accent);
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+      font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+    }
+
+    .modal-description {
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 2rem;
+      font-size: 1.1rem;
+    }
+
+    .modal-achievements {
+      list-style: none;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+    }
+
+    .modal-achievements li {
+      position: relative;
+      padding-left: 1.5rem;
+      margin-bottom: 0.8rem;
+      line-height: 1.6;
+    }
+
+    .modal-achievements li::before {
+      content: '▹';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    /* Certificates Section */
+    .certificates-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2.5rem;
+      margin-top: 2rem;
+    }
+
+    .certificate-card {
+      background-color: var(--card-bg);
+      border-radius: 15px;
+      border: 1px solid rgba(100, 255, 218, 0.1);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px -10px rgba(2, 12, 27, 0.7);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    .certificate-card:hover {
+      transform: translateY(-10px);
+      border-color: var(--accent);
+      box-shadow: var(--glow);
+    }
+
+    .certificate-logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--accent);
+      box-shadow: 0 0 20px rgba(100, 255, 218, 0.3);
+      margin-bottom: 1.5rem;
+    }
+
+    .certificate-title {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      color: var(--accent);
+      text-align: center;
+    }
+
+    .certificate-issuer {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+    }
+
+    .certificate-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: var(--transition);
+      padding: 0.7rem 1.5rem;
+      border: 1px solid var(--accent);
+      border-radius: 4px;
+    }
+
+    .certificate-link:hover {
+      background: rgba(100, 255, 218, 0.1);
+      transform: translateY(-2px);
+    }
+
+    /* Skills Section */
+    .skills-categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2.5rem;
+      margin-top: 2rem;
+    }
+
+    .skills-category {
+      background-color: var(--card-bg);
+      border-radius: 15px;
+      border: 1px solid rgba(100, 255, 218, 0.1);
+      transition: var(--transition);
+      padding: 2rem;
+      box-shadow: 0 10px 30px -10px rgba(2, 12, 27, 0.7);
+    }
+
+    .skills-category:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent);
+      box-shadow: var(--glow);
+    }
+
+    .category-title {
+      font-size: 1.3rem;
+      margin-bottom: 1.5rem;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .category-title i {
+      font-size: 1.2rem;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+      gap: 1rem;
+    }
+
+   .skill-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  background: rgba(100, 255, 218, 0.1);
+  border-radius: 10px;
+  transition: var(--transition);
+  position: relative;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.skill-item.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered animation delays */
+.skill-item:nth-child(1) { transition-delay: 0.1s; }
+.skill-item:nth-child(2) { transition-delay: 0.2s; }
+.skill-item:nth-child(3) { transition-delay: 0.3s; }
+.skill-item:nth-child(4) { transition-delay: 0.4s; }
+.skill-item:nth-child(5) { transition-delay: 0.5s; }
+.skill-item:nth-child(6) { transition-delay: 0.6s; }
+.skill-item:nth-child(7) { transition-delay: 0.7s; }
+.skill-item:nth-child(8) { transition-delay: 0.8s; }
+.skill-item:nth-child(9) { transition-delay: 0.9s; }
+.skill-item:nth-child(10) { transition-delay: 1.0s; }
+
+    .skill-item:hover {
+      transform: translateY(-3px);
+      background: rgba(100, 255, 218, 0.2);
+      box-shadow: var(--glow);
+    }
+
+    .skill-icon {
+      font-size: 1.5rem;
+      color: var(--accent);
+      margin-bottom: 0.3rem;
+    }
+
+    .skill-name {
+      font-size: 0.8rem;
+      color: var(--text-primary);
+      text-align: center;
+      font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+    }
+
+    /* Languages Section */
+    .languages-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2.5rem;
+      margin-top: 2rem;
+      justify-items: center;
+    }
+
+    .language-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+      border-radius: 15px;
+      background: var(--card-bg);
+      transition: var(--transition);
+      border: 1px solid rgba(100, 255, 218, 0.1);
+      box-shadow: 0 10px 30px -10px rgba(2, 12, 27, 0.7);
+    }
+
+    .language-item:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent);
+      box-shadow: var(--glow);
+    }
+
+    .language-icon img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin-bottom: 1rem;
+      border: 3px solid var(--accent);
+      box-shadow: 0 0 20px rgba(100, 255, 218, 0.3);
+    }
+
+    .language-name {
+      font-size: 1rem;
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .language-level {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-top: 0.5rem;
+    }
+
+    /* Clubs & Interests Sections */
+    .clubs-grid, .interests-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2.5rem;
+      margin-top: 2rem;
+      justify-items: center;
+    }
+
+    .club-item, .interest-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+      border-radius: 15px;
+      background: var(--card-bg);
+      transition: var(--transition);
+      border: 1px solid rgba(100, 255, 218, 0.1);
+      box-shadow: 0 10px 30px -10px rgba(2, 12, 27, 0.7);
+    }
+
+    .club-item:hover, .interest-item:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent);
+      box-shadow: var(--glow);
+    }
+
+    .club-icon img, .interest-icon img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin-bottom: 1rem;
+      border: 3px solid var(--accent);
+      box-shadow: 0 0 20px rgba(100, 255, 218, 0.3);
+    }
+
+    .club-name, .interest-name {
+      font-size: 1rem;
+      color: var(--text-primary);
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .club-role {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      text-align: center;
+      margin-top: 0.5rem;
+    }
+
+    /* Footer */
+    .footer {
+      padding: 3rem 2rem;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(100, 255, 218, 0.1);
+      margin-top: 4rem;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .social-link {
+      color: var(--text-secondary);
+      font-size: 1.2rem;
+      transition: var(--transition);
+      width: 45px;
+      height: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(30, 61, 107, 0.5);
+    }
+
+    .social-link:hover {
+      color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: var(--glow);
+    }
+
+    /* Animations */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Light Effects */
+    .light-effect {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(100, 255, 218, 0.1) 0%, rgba(100, 255, 218, 0) 70%);
+      filter: blur(20px);
+      z-index: -1;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .navigation {
+        padding: 1rem;
+      }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: var(--primary);
+        flex-direction: column;
+        padding: 1rem 0;
+        box-shadow: 0 10px 30px -10px rgba(2, 12, 27, 0.7);
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .nav-links li {
+        margin: 0.5rem 0;
+        text-align: center;
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      .experience-timeline::before {
+        left: 20px;
+      }
+
+      .experience-card {
+        width: 100%;
+        margin: 2rem 0;
+      }
+
+      .experience-card:nth-child(odd),
+      .experience-card:nth-child(even) {
+        margin-left: 40px;
+        margin-right: 20px;
+      }
+
+      .experience-card::before {
+        left: -32px;
+      }
+
+      .experience-header {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .experience-logo {
+        margin-right: 0;
+        margin-bottom: 1rem;
+      }
+
+      .section-title::after {
+        width: 150px;
+      }
+
+      .certificates-grid,
+      .skills-categories,
+      .languages-grid,
+      .clubs-grid,
+      .interests-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .skills-grid {
+        grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+      }
+
+      .skill-item {
+        width: 70px;
+        height: 70px;
+      }
+
+      .experience-hero {
+        padding: 6rem 1rem 3rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .experience-card {
+        margin: 1rem 0.5rem;
+      }
+    }
+    .read-more-btn {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 0.7rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+}
+
+.read-more-btn:hover {
+  background: rgba(100, 255, 218, 0.1);
+  transform: translateY(-2px);
+}
+  </style>
 </head>
 <body>
+  <!-- Loading Screen -->
+  <div class="loading-screen" id="loadingScreen">
+    <div class="loader">
+      <div class="loader-square"></div>
+      <div class="loader-square"></div>
+      <div class="loader-square"></div>
+      <div class="loader-square"></div>
+    </div>
+  </div>
 
-	<!-- SECTION: Splashscreen -->
-	<div class="splashscreen">
-		<div class="preloader">
-			<span class="preloader__text">Loading</span>
-		</div>
-	</div>
-	<!-- END SECTION: Splashscreen -->
-	
-	<!-- SECTION: Intro -->
-	<header class="header">
-		<!-- SECTION: Navigation -->
-	<div id="top" class="navigation">
-		<div class="navigation__wrapper wrapper--large">
-			<a class="rot" class="navigation__logo logo" href="#0"><img src="img/logo.png" alt="" width="70"></a>
-			<nav class="navigation__container">
-				<ul class="navigation__list">
-					<li><a href="index.html">Home</a></li>
-					<li><a href="parcours.html">Academic Path</a></li>
-					<li><a href="experience.html">Experience</a></li>
-					<li><a href="contact.html">Info</a></li>
-				</ul>
-			</nav>
-            <a class="imgP" class="navigation__logo logo" href="#0"><img src="img/photo.png" alt="" width="70"></a>
+  <!-- Dynamic Background -->
+  <div class="bg-animation" id="bgAnimation"></div>
+  
+  <!-- Light Effects -->
+  <div class="light-effect" style="top: 10%; left: 10%;"></div>
+  <div class="light-effect" style="top: 60%; right: 10%;"></div>
 
-			
-			
-		</div>
-	</div>
-	<!-- END SECTION: Navigation -->
-	</header>
-	<!-- END SECTION: Intro -->
-	<main role="main">
-		<!-- SECTION: About -->
-		
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<!-- SECTION: About -->
-		<section id="contact" class="contact" >
-			<h2 class="contact__heading title">Skills</h2>
-			<hr>
-			<div style="text-align: center;">
-                <span style="display: inline-block; text-align: center; margin: 0 10px;">
-                  <img class="imgP" src="img/code.jpg" alt="Image 1" style="width: 200px; height: 200px; border-radius: 50%;">
-                  <p>Coding</p>
-                </span>
-              
-                <span style="display: inline-block; text-align: center; margin: 0 10px;">
-                  <img class="imgP" src="img/network.jpg" alt="Image 2" style="width: 200px; height: 200px; border-radius: 50%;">
-                  <p>Networking</p>
-                </span>
-              
-                <span style="display: inline-block; text-align: center; margin: 0 10px;">
-                  <img class="imgP" src="img/math.jpg" alt="Image 3" style="width: 200px; height: 200px; border-radius: 50%;">
-                  <p>Mathematics</p>
-                </span>
-                <span style="display: inline-block; text-align: center; margin: 0 10px;">
-                    <img class="imgP" src="img/video.jpg" alt="Image 3" style="width: 200px; height: 200px; border-radius: 50%;">
-                    <p>Video Editing</p>
-                  </span>
-                <!-- Add more divs with images and text for additional circles -->
-              
-              </div>
-			
-	
-			
-		</section>
+  <!-- Navigation -->
+  <nav class="navigation" id="navigation">
+    <div class="logo">
+      <img src="img/mylogo.png" alt="Aziz Mehdi Logo">
+      <span>Aziz Mehdi</span>
+    </div>
+    
+      <ul class="nav-links">
+      <li><a href="index.html#home">Home</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#skills">Skills</a></li>
+      <li><a href="index.html#cv">Resume</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="experience.html">Experience</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+    
+    <button class="mobile-menu-btn" id="mobileMenuBtn">
+      <i class="fas fa-bars"></i>
+    </button>
+  </nav>
 
-        <section id="contact" class="contact" >
-			<h2 class="contact__heading title">Languages</h2>
-			<hr>
-			<div style="text-align: center;">
-                <span style="display: inline-block; text-align: center; margin: 0 10px;">
-                  <img class="imgP" src="img/saudi.png" alt="Image 1" style="width: 200px; height: 200px; border-radius: 50%;">
-                  <p>Arabic</p>
-                </span>
-              
-                <span style="display: inline-block; text-align: center; margin: 0 10px;">
-                  <img class="imgP" src="img/france.png" alt="Image 2" style="width: 200px; height: 200px; border-radius: 50%;">
-                  <p>French</p>
-                </span>
-              
-                <span style="display: inline-block; text-align: center; margin: 0 10px;">
-                  <img class="imgP" src="img/english.png" alt="Image 3" style="width: 200px; height: 200px; border-radius: 50%;">
-                  <p>English</p>
-                </span>
-                <span style="display: inline-block; text-align: center; margin: 0 10px;">
-                    <img class="imgP" src="img/spain.png" alt="Image 3" style="width: 200px; height: 200px; border-radius: 50%;">
-                    <p>Spanish</p>
-                  </span>
-                <!-- Add more divs with images and text for additional circles -->
-              
-              </div>
-			
-	
-			
-		</section>
+  <!-- Experience Hero Section -->
+  <section class="experience-hero">
+    <div class="experience-hero-content">
+      <h1 class="fade-in">My <span class="generation-animation">Experience</span></h1>
+      <p class="fade-in">Professional journey in Cloud Computing, DevOps, and Software Development</p>
+    </div>
+  </section>
 
-        <section id="contact" class="contact" >
-			<h2 class="contact__heading title">Clubs and Experience</h2>
-			<hr>
-			<div style="text-align: center;">
-                <span style="display: inline-block; text-align: center; margin: 0 10px;">
-                  <img class="imgP" src="img/securinets.jpg" alt="Image 1" style="width: 200px; height: 200px; border-radius: 50%;">
-                  <p>Securinet INSAT</p>
-                </span>
-              
-                <span style="display: inline-block; text-align: center; margin: 0 10px;">
-                  <img class="imgP" src="img/deepflow.jpg" alt="Image 2" style="width: 200px; height: 200px; border-radius: 50%;">
-                  <p>Deeplflow ESPRIT</p>
-                </span>
-              
-                <span style="display: inline-block; text-align: center; margin: 0 10px;">
-                  <img class="imgP" src="img/uget.jpg" alt="Image 3" style="width: 200px; height: 200px; border-radius: 50%;">
-                  <p>UGET</p>
-                </span>
-                <span style="display: inline-block; text-align: center; margin: 0 10px;">
-                    <img class="imgP" src="img/ieee.png" alt="Image 3" style="width: 200px; height: 200px; border-radius: 50%;">
-                    <p>IEEE FST</p>
-                  </span>
-                <!-- Add more divs with images and text for additional circles -->
-              
-              </div>
-			
-	
-			
-		</section>
-		<!-- END SECTION: About -->
+  <!-- Experience Section -->
+  <section class="section" id="experience">
+    <h2 class="section-title fade-in">Professional Experience</h2>
+    <div class="experience-timeline">
+      <!-- Verse Internship -->
+      <div class="experience-card fade-in">
+        <div class="experience-content">
+          <div class="experience-header">
+            <img src="img/verse.jpg.png" alt="Verse Logo" class="experience-logo">
+            <div class="experience-info">
+              <h3 class="experience-title">
+                <i class="fas fa-cloud"></i>
+                Cloud & DevOps Intern
+              </h3>
+              <div class="experience-company">Verse · Internship</div>
+              <div class="experience-period">Jun 2025 - Aug 2025 · 3 months</div>
+            </div>
+          </div>
+          <p class="experience-description">
+            Implemented automated, secure, and scalable deployment infrastructure using AWS, Docker, and Jenkins CI/CD.
+          </p>
+          <div class="experience-technologies">
+            <span class="tech-tag">AWS</span>
+            <span class="tech-tag">Docker</span>
+            <span class="tech-tag">Jenkins</span>
+            <span class="tech-tag">MongoDB</span>
+            <span class="tech-tag">Odoo</span>
+            <span class="tech-tag">Nextcloud</span>
+            <span class="tech-tag">Flutter</span>
+            <span class="tech-tag">Next.js</span>
+            <span class="tech-tag">Prometheus</span>
+            <span class="tech-tag">Grafana</span>
+            <span class="tech-tag">Terraform</span>
+            <span class="tech-tag">OpenTelemetry</span>
+          </div>
+          <div class="experience-links">
+            <button class="experience-link read-more-btn" data-experience="verse">
+              <i class="fas fa-external-link-alt"></i> Read More
+            </button>
+          </div>
+        </div>
+      </div>
 
-	</main>
-	<!-- SECTION: Footer -->
-	<footer class="footer">
-		<div class="footer__wrapper wrapper--large">
-			<p class="footer__copyright no-margin">&copy; 2023 -Esprit</p>
-			
-		</div>
-	</footer>
-	<!-- END SECTION: Footer -->
+      <!-- Picosoft Internship -->
+      <div class="experience-card fade-in">
+        <div class="experience-content">
+          <div class="experience-header">
+            <img src="img/picosoft.png" alt="Picosoft Logo" class="experience-logo">
+            <div class="experience-info">
+              <h3 class="experience-title">
+                <i class="fas fa-code"></i>
+                Web Development Intern
+              </h3>
+              <div class="experience-company">Picosoft · Internship</div>
+              <div class="experience-period">Jul 2024 - Sep 2024 · 3 months</div>
+            </div>
+          </div>
+          <p class="experience-description">
+            Built a Django app for equipment and user role management with responsive design and data visualization.
+          </p>
+          <div class="experience-technologies">
+            <span class="tech-tag">Django</span>
+            <span class="tech-tag">Bootstrap</span>
+            <span class="tech-tag">JavaScript</span>
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">Git</span>
+          </div>
+          <div class="experience-links">
+            <button class="experience-link read-more-btn" data-experience="picosoft">
+              <i class="fas fa-external-link-alt"></i> Read More
+            </button>
+            <a href="https://github.com/nessmattcash/picosoft" class="experience-link" target="_blank">
+              <i class="fab fa-github"></i> View Code
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-	<script src="js/functions-min.js"></script>
+  <!-- Certificates Section -->
+  <section class="section" id="certificates">
+    <h2 class="section-title fade-in">Certificates</h2>
+    <div class="certificates-grid">
+      <div class="certificate-card fade-in">
+        <img src="img/nvidia.jpg" alt="NVIDIA Logo" class="certificate-logo">
+        <h3 class="certificate-title">Applications of AI for Predictive Maintenance</h3>
+        <div class="certificate-issuer">NVIDIA</div>
+        <a href="https://learn.nvidia.com/certificates?id=X3OT9NxLQIe4NON1N5wjYA" class="certificate-link" target="_blank">
+          <i class="fas fa-certificate"></i> View Certificate
+        </a>
+      </div>
+      <div class="certificate-card fade-in">
+        <img src="img/nvidia.jpg" alt="NVIDIA Logo" class="certificate-logo">
+        <h3 class="certificate-title">Building Transformer-Based NLP Applications</h3>
+        <div class="certificate-issuer">NVIDIA</div>
+        <a href="https://learn.nvidia.com/certificates?id=OIGyt3VzSQSyAfnSCmE8qA" class="certificate-link" target="_blank">
+          <i class="fas fa-certificate"></i> View Certificate
+        </a>
+      </div>
+      <div class="certificate-card fade-in">
+        <img src="img/nvidia.jpg" alt="NVIDIA Logo" class="certificate-logo">
+        <h3 class="certificate-title">Fundamentals of Deep Learning</h3>
+        <div class="certificate-issuer">NVIDIA</div>
+        <a href="https://learn.nvidia.com/certificates?id=tDlxAn_ZQpikKcUpgfvCYg" class="certificate-link" target="_blank">
+          <i class="fas fa-certificate"></i> View Certificate
+        </a>
+      </div>
+    </div>
+  </section>
 
+  <!-- Skills Section -->
+  <section class="section" id="skills">
+    <h2 class="section-title fade-in">Skills & Technologies</h2>
+    <div class="skills-categories">
+      <div class="skills-category fade-in">
+        <h3 class="category-title"><i class="fas fa-cloud"></i> Cloud & DevOps</h3>
+        <div class="skills-grid">
+          <div class="skill-item"><div class="skill-icon"><i class="fab fa-aws"></i></div><div class="skill-name">AWS</div></div>
+          <div class="skill-item"><div class="skill-icon"><i class="fas fa-cloud"></i></div><div class="skill-name">Azure</div></div>
+          <div class="skill-item"><div class="skill-icon"><i class="fab fa-docker"></i></div><div class="skill-name">Docker</div></div>
+          <div class="skill-item"><div class="skill-icon"><i class="fas fa-cubes"></i></div><div class="skill-name">Kubernetes</div></div>
+          <div class="skill-item"><div class="skill-icon"><i class="fab fa-jenkins"></i></div><div class="skill-name">Jenkins</div></div>
+          <div class="skill-item"><div class="skill-icon"><i class="fas fa-code-branch"></i></div><div class="skill-name">GitHub Actions</div></div>
+          <div class="skill-item"><div class="skill-icon"><i class="fas fa-server"></i></div><div class="skill-name">Terraform</div></div>
+          <div class="skill-item"><div class="skill-icon"><i class="fas fa-cogs"></i></div><div class="skill-name">Ansible</div></div>
+          <div class="skill-item"><div class="skill-icon"><i class="fab fa-linux"></i></div><div class="skill-name">Linux</div></div>
+        </div>
+      </div>
+      <div class="skills-category fade-in">
+        <h3 class="category-title"><i class="fas fa-code"></i> Frameworks & Languages</h3>
+        <div class="skills-grid">
+          <div class="skill-item"><div class="skill-icon"><i class="fab fa-python"></i></div><div class="skill-name">Python</div></div>
+          <div class="skill-item"><div class="skill-icon"><i class="fab fa-java"></i></div><div class="skill-name">Java</div></div>
+          <div class="skill-item"><div class="skill-icon"><i class="fab fa-js"></i></div><div class="skill-name">JavaScript</div></div>
+          <div class="skill-item"><div class="skill-icon"><i class="fas fa-code"></i></div><div class="skill-name">C</div></div>
+          <div class="skill-item"><div class="skill-icon"><i class="fas fa-code"></i></div><div class="skill-name">C#</div></div>
+          <div class="skill-item"><div class="skill-icon"><i class="fab fa-angular"></i></div><div class="skill-name">Angular</div></div>
+          <div class="skill-item"><div class="skill-icon"><i class="fas fa-leaf"></i></div><div class="skill-name">Spring Boot</div></div>
+          <div class="skill-item"><div class="skill-icon"><i class="fab fa-python"></i></div><div class="skill-name">Django</div></div>
+          <div class="skill-item"><div class="skill-icon"><i class="fas fa-mobile"></i></div><div class="skill-name">Flutter</div></div>
+          <div class="skill-item"><div class="skill-icon"><i class="fab fa-react"></i></div><div class="skill-name">Next.js</div></div>
+        </div>
+      </div>
+      <div class="skills-category fade-in">
+        <h3 class="category-title"><i class="fas fa-brain"></i> AI & Machine Learning</h3>
+        <div class="skills-grid">
+          <div class="skill-item"><div class="skill-icon"><i class="fas fa-brain"></i></div><div class="skill-name">Machine Learning</div></div>
+          <div class="skill-item"><div class="skill-icon"><i class="fas fa-robot"></i></div><div class="skill-name">Deep Learning</div></div>
+          <div class="skill-item"><div class="skill-icon"><i class="fas fa-chart-line"></i></div><div class="skill-name">MLflow</div></div>
+          <div class="skill-item"><div class="skill-icon"><i class="fas fa-network-wired"></i></div><div class="skill-name">Transformers</div></div>
+        </div>
+      </div>
+      <div class="skills-category fade-in">
+        <h3 class="category-title"><i class="fas fa-tools"></i> Monitoring & Databases</h3>
+        <div class="skills-grid">
+          <div class="skill-item"><div class="skill-icon"><i class="fas fa-chart-bar"></i></div><div class="skill-name">Prometheus</div></div>
+          <div class="skill-item"><div class="skill-icon"><i class="fas fa-chart-pie"></i></div><div class="skill-name">Grafana</div></div>
+          <div class="skill-item"><div class="skill-icon"><i class="fas fa-database"></i></div><div class="skill-name">MySQL</div></div>
+          <div class="skill-item"><div class="skill-icon"><i class="fas fa-database"></i></div><div class="skill-name">PostgreSQL</div></div>
+          <div class="skill-item"><div class="skill-icon"><i class="fas fa-database"></i></div><div class="skill-name">MongoDB</div></div>
+          <div class="skill-item"><div class="skill-icon"><i class="fas fa-database"></i></div><div class="skill-name">MariaDB</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Languages Section -->
+  <section class="section" id="languages">
+    <h2 class="section-title fade-in">Languages</h2>
+    <div class="languages-grid">
+      <div class="language-item fade-in">
+        <div class="language-icon"><img src="img/saudi.png" alt="Arabic"></div>
+        <div class="language-name">Arabic</div>
+        <div class="language-level">Native</div>
+      </div>
+      <div class="language-item fade-in">
+        <div class="language-icon"><img src="img/france.png" alt="French"></div>
+        <div class="language-name">French</div>
+        <div class="language-level">B2</div>
+      </div>
+      <div class="language-item fade-in">
+        <div class="language-icon"><img src="img/english.png" alt="English"></div>
+        <div class="language-name">English</div>
+        <div class="language-level">B2</div>
+      </div>
+      <div class="language-item fade-in">
+        <div class="language-icon"><img src="img/spain.png" alt="Spanish"></div>
+        <div class="language-name">Spanish</div>
+        <div class="language-level">Beginner</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Clubs & Activities Section -->
+  <section class="section" id="clubs">
+    <h2 class="section-title fade-in">Clubs & Activities</h2>
+    <div class="clubs-grid">
+      <div class="club-item fade-in">
+        <div class="club-icon"><img src="img/ieee.png" alt="IEEE FST"></div>
+        <div class="club-name">IEEE FST</div>
+        <div class="club-role">Member (2022 - 2023)</div>
+      </div>
+      <div class="club-item fade-in">
+        <div class="club-icon"><img src="img/deepflow.jpg" alt="DeepFlow ESPRIT"></div>
+        <div class="club-name">DeepFlow ESPRIT</div>
+        <div class="club-role">Member (2023 - 2024)<br>HR Manager (2024 - 2025)</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interests Section -->
+  <section class="section" id="interests">
+    <h2 class="section-title fade-in">Interests</h2>
+    <div class="interests-grid">
+      <div class="interest-item fade-in">
+        <div class="interest-icon"><img src="img/code.jpg" alt="Coding"></div>
+        <div class="interest-name">Coding</div>
+      </div>
+      <div class="interest-item fade-in">
+        <div class="interest-icon"><img src="img/network.jpg" alt="Networking"></div>
+        <div class="interest-name">Networking</div>
+      </div>
+      <div class="interest-item fade-in">
+        <div class="interest-icon"><img src="img/math.jpg" alt="Mathematics"></div>
+        <div class="interest-name">Mathematics</div>
+      </div>
+      <div class="interest-item fade-in">
+        <div class="interest-icon"><img src="img/video.jpg" alt="Video Editing"></div>
+        <div class="interest-name">Video Editing</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="social-links">
+      <a href="https://www.linkedin.com/in/aziz-mehdi-400a2a292/" class="social-link" target="_blank">
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+      <a href="https://github.com/nessmattcash" class="social-link" target="_blank">
+        <i class="fab fa-github"></i>
+      </a>
+      <a href="https://www.facebook.com/DeepFlowEsprit?locale=fr_FR" class="social-link" target="_blank">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+    </div>
+    <p>&copy; 2025 Aziz Mehdi. All Rights Reserved.</p>
+  </footer>
+
+  <!-- Experience Modals -->
+  <div class="modal" id="experienceModal">
+    <div class="modal-content">
+      <button class="close-modal" id="closeModal">&times;</button>
+      <h2 class="modal-title" id="modalTitle"></h2>
+      <p class="modal-period" id="modalPeriod"></p>
+      <div class="modal-description" id="modalDescription"></div>
+      <ul class="modal-achievements" id="modalAchievements"></ul>
+    </div>
+  </div>
+
+  <script>
+    // Loading Screen
+    window.addEventListener('load', function() {
+      const loadingScreen = document.getElementById('loadingScreen');
+      setTimeout(() => {
+        loadingScreen.classList.add('hidden');
+      }, 1000);
+    });
+
+    // Dynamic Background Animation
+    function createBackground() {
+      const bgAnimation = document.getElementById('bgAnimation');
+      const squareCount = 15;
+      
+      for (let i = 0; i < squareCount; i++) {
+        const square = document.createElement('div');
+        square.classList.add('bg-square');
+        
+        const size = Math.random() * 60 + 20;
+        square.style.width = `${size}px`;
+        square.style.height = `${size}px`;
+        square.style.left = `${Math.random() * 100}%`;
+        square.style.top = `${Math.random() * 100}%`;
+        
+        const duration = Math.random() * 20 + 10;
+        const delay = Math.random() * 5;
+        square.style.animationDuration = `${duration}s`;
+        square.style.animationDelay = `${delay}s`;
+        
+        bgAnimation.appendChild(square);
+      }
+    }
+
+    // Navigation scroll effect
+    function handleScroll() {
+      const navigation = document.getElementById('navigation');
+      if (window.scrollY > 50) {
+        navigation.classList.add('scrolled');
+      } else {
+        navigation.classList.remove('scrolled');
+      }
+    }
+
+    // Mobile menu toggle
+    function setupMobileMenu() {
+      const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+      const navLinks = document.querySelector('.nav-links');
+      
+      mobileMenuBtn.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        mobileMenuBtn.innerHTML = navLinks.classList.contains('active') 
+          ? '<i class="fas fa-times"></i>' 
+          : '<i class="fas fa-bars"></i>';
+      });
+    }
+
+    // Fade-in animation on scroll
+    function setupScrollAnimations() {
+      const fadeElements = document.querySelectorAll('.fade-in');
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      fadeElements.forEach(el => observer.observe(el));
+    }
+
+    // Generation animation for title
+    function setupGenerationAnimation() {
+      const generationElement = document.querySelector('.generation-animation');
+      
+      setTimeout(() => {
+        generationElement.classList.add('animate');
+      }, 500);
+    }
+
+    // Hero animation
+    function setupHeroAnimation() {
+      const heroTitle = document.querySelector('.experience-hero h1');
+      const heroSubtitle = document.querySelector('.experience-hero p');
+      
+      // Store original content
+      const originalTitle = heroTitle.innerHTML;
+      const originalSubtitle = heroSubtitle.textContent;
+      
+      // Clear content
+      heroTitle.innerHTML = '';
+      heroSubtitle.textContent = '';
+      
+      // Animate "My" word
+      setTimeout(() => {
+        const mySpan = document.createElement('span');
+        mySpan.textContent = 'My';
+        mySpan.style.opacity = '0';
+        mySpan.style.transform = 'translateY(20px)';
+        mySpan.style.transition = 'all 0.6s ease';
+        heroTitle.appendChild(mySpan);
+        
+        // Add space after "My"
+        const spaceSpan = document.createElement('span');
+        spaceSpan.textContent = ' ';
+        spaceSpan.style.opacity = '0';
+        heroTitle.appendChild(spaceSpan);
+        
+        // Animate in
+        setTimeout(() => {
+          mySpan.style.opacity = '1';
+          mySpan.style.transform = 'translateY(0)';
+          spaceSpan.style.opacity = '1';
+        }, 100);
+      }, 500);
+      
+      // Animate "Experience" with the existing generation animation
+      setTimeout(() => {
+        const experienceSpan = document.createElement('span');
+        experienceSpan.className = 'generation-animation';
+        experienceSpan.textContent = 'Experience';
+        experienceSpan.style.opacity = '0';
+        experienceSpan.style.transform = 'translateY(20px)';
+        experienceSpan.style.transition = 'all 0.6s ease';
+        heroTitle.appendChild(experienceSpan);
+        
+        // Animate in
+        setTimeout(() => {
+          experienceSpan.style.opacity = '1';
+          experienceSpan.style.transform = 'translateY(0)';
+          
+          // Trigger the underline animation after fade in
+          setTimeout(() => {
+            experienceSpan.classList.add('animate');
+          }, 300);
+        }, 100);
+      }, 800);
+      
+      // Animate subtitle word by word
+      const subtitleWords = originalSubtitle.split(' ');
+      heroSubtitle.textContent = '';
+      
+      subtitleWords.forEach((word, index) => {
+        setTimeout(() => {
+          const wordSpan = document.createElement('span');
+          wordSpan.textContent = word + (index < subtitleWords.length - 1 ? ' ' : '');
+          wordSpan.style.opacity = '0';
+          wordSpan.style.transform = 'translateY(10px)';
+          wordSpan.style.transition = 'all 0.5s ease';
+          heroSubtitle.appendChild(wordSpan);
+          
+          // Animate in
+          setTimeout(() => {
+            wordSpan.style.opacity = '1';
+            wordSpan.style.transform = 'translateY(0)';
+          }, 50);
+        }, 1200 + (index * 100));
+      });
+    }
+
+    // Experience modal functionality
+    function setupExperienceModals() {
+      const modal = document.getElementById('experienceModal');
+      const closeModal = document.getElementById('closeModal');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalPeriod = document.getElementById('modalPeriod');
+      const modalDescription = document.getElementById('modalDescription');
+      const modalAchievements = document.getElementById('modalAchievements');
+      
+      const experienceDetails = {
+        verse: {
+          title: "Cloud & DevOps Intern - Verse",
+          period: "Jun 2025 - Aug 2025 · 3 months",
+          description: `
+            <p>El Bouhaira, Gouvernorat Tunis, Tunisia · On-site</p>
+            <p>During my internship at Verse, I implemented a fully automated, secure, and scalable deployment infrastructure using AWS, Docker, and Jenkins CI/CD.</p>
+          `,
+          achievements: [
+            "Automated MongoDB, Odoo, and Nextcloud backups to AWS S3",
+            "Built CI/CD pipelines for Flutter (Web & APK) and Next.js apps with Docker",
+            "Implemented Blue-Green deployments ensuring zero downtime",
+            "Deployed and integrated services: Nextcloud, Mailcow, Collabora Office, Odoo ERP",
+            "Set up Prometheus, Grafana, cAdvisor, and OpenTelemetry for monitoring & dashboards",
+            "Provisioned an EKS cluster with Terraform for scalable workloads",
+            "Resolved dependency, permission, and pipeline integration challenges"
+          ]
+        },
+        picosoft: {
+          title: "Web Development Intern - Picosoft",
+          period: "Jul 2024 - Sep 2024 · 3 months",
+          description: `
+            <p>Ariana, Tunisia · On-site</p>
+            <p>A summer internship in Web Development where I built a Django application for managing equipment and user roles, with a focus on responsive design and data visualization.</p>
+          `,
+          achievements: [
+            "Developed a Django app for equipment and user role management",
+            "Created a responsive UI using Bootstrap and JavaScript",
+            "Integrated interactive charts for real-time data visualization"
+          ]
+        }
+      };
+      
+      document.querySelectorAll('.read-more-btn').forEach(button => {
+        button.addEventListener('click', () => {
+          const experienceId = button.getAttribute('data-experience');
+          const experience = experienceDetails[experienceId];
+          
+          if (experience) {
+            modalTitle.textContent = experience.title;
+            modalPeriod.textContent = experience.period;
+            modalDescription.innerHTML = experience.description;
+            
+            modalAchievements.innerHTML = '';
+            experience.achievements.forEach(achievement => {
+              const li = document.createElement('li');
+              li.textContent = achievement;
+              modalAchievements.appendChild(li);
+            });
+            
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+          }
+        });
+      });
+      
+      closeModal.addEventListener('click', () => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      });
+      
+      window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.style.display = 'none';
+          document.body.style.overflow = 'auto';
+        }
+      });
+    }
+
+    // Initialize everything when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      createBackground();
+      setupMobileMenu();
+      setupScrollAnimations();
+      setupGenerationAnimation();
+      setupHeroAnimation();
+        setupSkillsAnimation(); // ADD THIS LINE
+
+      setupExperienceModals();
+      window.addEventListener('scroll', handleScroll);
+    });
+    // Skills animation
+function setupSkillsAnimation() {
+  const skillItems = document.querySelectorAll('.skill-item');
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+  
+  skillItems.forEach(el => observer.observe(el));
+}
+  </script>
 </body>
 </html>

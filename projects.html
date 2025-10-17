@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aziz Mehdi | Projects</title>
+  <link rel="icon" type="image/x-icon" href="img/mylogo.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #0d223f;
+      --secondary: #1a365d;
+      --accent: #64ffda;
+      --accent-light: #8affff;
+      --text-primary: #e6f1ff;
+      --text-secondary: #a8b2d1;
+      --card-bg: rgba(30, 61, 107, 0.7);
+      --transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
+      --glow: 0 0 15px rgba(100, 255, 218, 0.5);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Calibre', 'Inter', 'San Francisco', 'SF Pro Text', -apple-system, system-ui, sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--primary);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* Loading Screen */
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--primary);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+    .loading-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loader {
+      width: 80px;
+      height: 80px;
+      position: relative;
+    }
+
+    .loader-square {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: var(--accent);
+      animation: loaderMove 1.5s infinite ease-in-out;
+    }
+
+    .loader-square:nth-child(1) {
+      top: 0;
+      left: 0;
+      animation-delay: 0s;
+    }
+
+    .loader-square:nth-child(2) {
+      top: 0;
+      right: 0;
+      animation-delay: 0.2s;
+    }
+
+    .loader-square:nth-child(3) {
+      bottom: 0;
+      right: 0;
+      animation-delay: 0.4s;
+    }
+
+    .loader-square:nth-child(4) {
+      bottom: 0;
+      left: 0;
+      animation-delay: 0.6s;
+    }
+
+    @keyframes loaderMove {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(0.5);
+        opacity: 0.5;
+      }
+    }
+
+    /* Dynamic Background */
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .bg-square {
+      position: absolute;
+      background: rgba(100, 255, 218, 0.05);
+      border: 1px solid rgba(100, 255, 218, 0.15);
+      border-radius: 5px;
+      animation: float 15s infinite linear;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.7;
+      }
+      50% {
+        transform: translateY(-20px) rotate(180deg);
+        opacity: 0.3;
+      }
+      100% {
+        transform: translateY(0) rotate(360deg);
+        opacity: 0.7;
+      }
+    }
+
+    /* Navigation */
+    .navigation {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 1.2rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: rgba(13, 34, 63, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      transition: var(--transition);
+      border-bottom: 1px solid rgba(100, 255, 218, 0.1);
+    }
+
+    .navigation.scrolled {
+      padding: 0.8rem 2rem;
+      box-shadow: 0 10px 30px -10px rgba(2, 12, 27, 0.7);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--accent);
+    }
+
+    .logo img {
+      height: 35px;
+      margin-right: 10px;
+      transition: var(--transition);
+    }
+
+    .logo:hover img {
+      transform: rotate(15deg);
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+
+    .nav-links li {
+      margin-left: 1.8rem;
+    }
+
+    .nav-links a {
+      color: var(--text-primary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 0.5rem 0;
+      position: relative;
+      transition: var(--transition);
+      font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--accent);
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--accent);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* Hero Section */
+    .projects-hero {
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      padding: 8rem 2rem 4rem;
+      position: relative;
+      text-align: center;
+    }
+
+    .projects-hero-content {
+      max-width: 1000px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .projects-hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+      text-shadow: 0 0 10px rgba(100, 255, 218, 0.3);
+    }
+
+    .projects-hero p {
+      font-size: 1.3rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Projects Section */
+    .section {
+      padding: 4rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      margin-bottom: 3rem;
+      font-size: 2rem;
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+
+    .section-title::after {
+      content: '';
+      display: block;
+      height: 1px;
+      width: 300px;
+      background-color: var(--text-secondary);
+      margin-left: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+      gap: 2.5rem;
+      margin-top: 2rem;
+    }
+
+    .project-card {
+      background-color: var(--card-bg);
+      border-radius: 15px;
+      border: 1px solid rgba(100, 255, 218, 0.1);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 10px 30px -10px rgba(2, 12, 27, 0.7);
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .project-card:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    .project-card:hover {
+      transform: translateY(-10px);
+      border-color: var(--accent);
+      box-shadow: var(--glow);
+    }
+
+    .project-image-container {
+      flex: 0 0 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1.5rem;
+    }
+
+    .project-image {
+      width: 150px;
+      height: 150px;
+      border-radius: 25%;
+      object-fit: cover;
+      border: 3px solid var(--accent);
+      box-shadow: 0 0 20px rgba(100, 255, 218, 0.3);
+      transition: var(--transition);
+    }
+
+    .project-card:hover .project-image {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(100, 255, 218, 0.5);
+    }
+
+    .project-content {
+      padding: 2rem;
+      flex: 1;
+    }
+
+    .project-title {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .project-period {
+      color: var(--accent);
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+    }
+
+    .project-description {
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .project-technologies {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tech-tag {
+      background: rgba(100, 255, 218, 0.1);
+      color: var(--accent);
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+      transition: var(--transition);
+    }
+
+    .tech-tag:hover {
+      background: rgba(100, 255, 218, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .project-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: var(--transition);
+      padding: 0.7rem 1.5rem;
+      border: 1px solid var(--accent);
+      border-radius: 4px;
+    }
+
+    .project-link:hover {
+      background: rgba(100, 255, 218, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .read-more-btn {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 0.7rem 1.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+    }
+
+    .read-more-btn:hover {
+      background: rgba(100, 255, 218, 0.1);
+      transform: translateY(-2px);
+    }
+
+    /* Generation Animation */
+    .generation-animation {
+      display: inline-block;
+      position: relative;
+      color: var(--accent);
+    }
+
+    .generation-animation::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: bottom right;
+      transition: transform 0.5s ease-out;
+    }
+
+    .generation-animation.animate::after {
+      transform: scaleX(1);
+      transform-origin: bottom left;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 25, 47, 0.95);
+      z-index: 2000;
+      overflow-y: auto;
+      padding: 2rem;
+    }
+
+    .modal-content {
+      background: var(--secondary);
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 3rem;
+      border-radius: 15px;
+      position: relative;
+      border: 1px solid var(--accent);
+      box-shadow: var(--glow);
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      color: var(--accent);
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: var(--transition);
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+
+    .close-modal:hover {
+      background: rgba(100, 255, 218, 0.1);
+      transform: rotate(90deg);
+    }
+
+    .modal-title {
+      font-size: 2.2rem;
+      margin-bottom: 1.5rem;
+      color: var(--accent);
+    }
+
+    .modal-period {
+      color: var(--accent);
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+      font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+    }
+
+    .modal-description {
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 2rem;
+      font-size: 1.1rem;
+    }
+
+    .modal-technologies {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      margin-bottom: 2rem;
+    }
+
+    .modal-tech-tag {
+      background: rgba(100, 255, 218, 0.1);
+      color: var(--accent);
+      padding: 0.6rem 1.2rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+    }
+
+    /* Footer */
+    .footer {
+      padding: 3rem 2rem;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(100, 255, 218, 0.1);
+      margin-top: 4rem;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .social-link {
+      color: var(--text-secondary);
+      font-size: 1.2rem;
+      transition: var(--transition);
+      width: 45px;
+      height: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(30, 61, 107, 0.5);
+    }
+
+    .social-link:hover {
+      color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: var(--glow);
+    }
+
+    /* Animations */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Light Effects */
+    .light-effect {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(100, 255, 218, 0.1) 0%, rgba(100, 255, 218, 0) 70%);
+      filter: blur(20px);
+      z-index: -1;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .navigation {
+        padding: 1rem;
+      }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: var(--primary);
+        flex-direction: column;
+        padding: 1rem 0;
+        box-shadow: 0 10px 30px -10px rgba(2, 12, 27, 0.7);
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .nav-links li {
+        margin: 0.5rem 0;
+        text-align: center;
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .project-card {
+        flex-direction: column !important;
+      }
+
+      .project-image-container {
+        flex: 0 0 auto;
+        padding: 1.5rem 1.5rem 0;
+      }
+
+      .section-title::after {
+        width: 150px;
+      }
+
+      .modal-content {
+        padding: 2rem;
+        margin: 1rem;
+      }
+
+      .projects-hero {
+        padding: 6rem 1rem 3rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .project-card {
+        margin: 0 0.5rem;
+      }
+    }
+	.typing-text {
+  border-right: 2px solid var(--accent);
+  animation: blink 1s infinite;
+  display: inline-block;
+}
+
+@keyframes blink {
+  0%, 100% { border-color: transparent; }
+  50% { border-color: var(--accent); }
+}
+
+  </style>
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div class="loading-screen" id="loadingScreen">
+    <div class="loader">
+      <div class="loader-square"></div>
+      <div class="loader-square"></div>
+      <div class="loader-square"></div>
+      <div class="loader-square"></div>
+    </div>
+  </div>
+
+  <!-- Dynamic Background -->
+  <div class="bg-animation" id="bgAnimation"></div>
+  
+  <!-- Light Effects -->
+  <div class="light-effect" style="top: 10%; left: 10%;"></div>
+  <div class="light-effect" style="top: 60%; right: 10%;"></div>
+
+  <!-- Navigation -->
+  <nav class="navigation" id="navigation">
+    <div class="logo">
+      <img src="img/mylogo.png" alt="Aziz Mehdi Logo">
+      <span>Aziz Mehdi</span>
+    </div>
+    
+    <ul class="nav-links">
+      <li><a href="index.html#home">Home</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#skills">Skills</a></li>
+      <li><a href="index.html#cv">Resume</a></li>
+	        <li><a href="parcours.html">Education</a></li>
+
+      <li><a href="experience.html">Experience</a></li>
+	        <li><a href="#projects">Projects</a></li>
+
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+    
+    <button class="mobile-menu-btn" id="mobileMenuBtn">
+      <i class="fas fa-bars"></i>
+    </button>
+  </nav>
+
+  <!-- Projects Hero Section -->
+  <section class="projects-hero">
+    <div class="projects-hero-content">
+      <h1 class="fade-in">My <span class="generation-animation">Projects</span></h1>
+      <p class="fade-in">Showcasing innovative solutions in Cloud Computing, DevOps, and Artificial Intelligence</p>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section class="section" id="projects">
+    <h2 class="section-title fade-in">Featured Projects</h2>
+    <div class="projects-grid">
+      <!-- ShadowHire Project -->
+      <div class="project-card fade-in">
+        <div class="project-image-container">
+          <img src="img/shadowhire1.png" alt="ShadowHire Project" class="project-image">
+        </div>
+        <div class="project-content">
+          <h3 class="project-title">
+            <i class="fas fa-robot"></i>
+            ShadowHire – AI-Powered Job Matching Platform
+          </h3>
+          <p class="project-period">Jul 2025 - Present</p>
+          <p class="project-description">
+            An advanced AI-powered recruitment platform that transforms hiring through intelligent automation. Features resume parsing with BERT, automated CV scoring, semantic job matching, and bilingual chatbot assistance.
+          </p>
+          <div class="project-technologies">
+            <span class="tech-tag">Angular</span>
+            <span class="tech-tag">Django</span>
+            <span class="tech-tag">Flask</span>
+            <span class="tech-tag">MySQL</span>
+            <span class="tech-tag">Docker</span>
+            <span class="tech-tag">Azure</span>
+            <span class="tech-tag">Jenkins</span>
+            <span class="tech-tag">BERT</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/nessmattcash/shadowhire" class="project-link" target="_blank">
+              <i class="fab fa-github"></i> View Code
+            </a>
+            <button class="read-more-btn" data-project="shadowhire">
+              <i class="fas fa-external-link-alt"></i> Read More
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- NatureLink Project -->
+      <div class="project-card fade-in">
+        <div class="project-image-container">
+          <img src="img/naturelink.jpg" alt="NatureLink Project" class="project-image">
+        </div>
+        <div class="project-content">
+          <h3 class="project-title">
+            <i class="fas fa-mountain"></i>
+            NatureLink – Cloud-Native Tourism Platform
+          </h3>
+          <p class="project-period">Oct 2024 - May 2025</p>
+          <p class="project-description">
+            Comprehensive tourism platform built on hybrid cloud infrastructure using OpenStack. Features AI integration, automated provisioning, containerization with Kubernetes, and advanced monitoring.
+          </p>
+          <div class="project-technologies">
+            <span class="tech-tag">OpenStack</span>
+            <span class="tech-tag">Kubernetes</span>
+            <span class="tech-tag">Spring Boot</span>
+            <span class="tech-tag">Angular</span>
+            <span class="tech-tag">Docker</span>
+            <span class="tech-tag">Ansible</span>
+            <span class="tech-tag">Prometheus</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/nessmattcash/NatureLink" class="project-link" target="_blank">
+              <i class="fab fa-github"></i> View Code
+            </a>
+            <button class="read-more-btn" data-project="naturelink">
+              <i class="fas fa-external-link-alt"></i> Read More
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Blood Donation Project -->
+      <div class="project-card fade-in">
+        <div class="project-image-container">
+<img src="img/blooddonnor.jpeg" alt="Blood Donation Project" class="project-image blood-donation-img">        </div>
+        <div class="project-content">
+          <h3 class="project-title">
+            <i class="fas fa-tint"></i>
+            Blood Donation Management System
+          </h3>
+          <p class="project-period">Sep 2023 - Jan 2024</p>
+          <p class="project-description">
+            C-based system for managing blood transfusion centers with donor tracking, appointment scheduling, blood inventory management, and compliance monitoring.
+          </p>
+          <div class="project-technologies">
+            <span class="tech-tag">C</span>
+            <span class="tech-tag">GTK</span>
+            <span class="tech-tag">Linux</span>
+            <span class="tech-tag">Ubuntu</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/nessmattcash/Blood-Donation-Platform" class="project-link" target="_blank">
+              <i class="fab fa-github"></i> View Code
+            </a>
+            <button class="read-more-btn" data-project="blooddonation">
+              <i class="fas fa-external-link-alt"></i> Read More
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- University Housing Project -->
+      <div class="project-card fade-in">
+        <div class="project-image-container">
+          <img src="img/springboot.png" alt="University Housing Project" class="project-image">
+        </div>
+        <div class="project-content">
+          <h3 class="project-title">
+            <i class="fas fa-building"></i>
+            University Student Housing System
+          </h3>
+          <p class="project-period">Jan 2025 - Apr 2025</p>
+          <p class="project-description">
+            Spring Boot backend system for managing university student housing with room allocation, maintenance requests, payment tracking, and student profile management.
+          </p>
+          <div class="project-technologies">
+            <span class="tech-tag">Spring Boot</span>
+            <span class="tech-tag">Java</span>
+            <span class="tech-tag">REST API</span>
+            <span class="tech-tag">MySQL</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/nessmattcash/springboot" class="project-link" target="_blank">
+              <i class="fab fa-github"></i> View Code
+            </a>
+            <button class="read-more-btn" data-project="housing">
+              <i class="fas fa-external-link-alt"></i> Read More
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Apartment Management Project -->
+      <div class="project-card fade-in">
+        <div class="project-image-container">
+          <img src="img/angular.jpeg" alt="Apartment Management Project" class="project-image">
+        </div>
+        <div class="project-content">
+          <h3 class="project-title">
+            <i class="fas fa-home"></i>
+            Apartment Management System
+          </h3>
+          <p class="project-period">Jan 2025 - Mar 2025</p>
+          <p class="project-description">
+            Angular-based web application for property management featuring listing services, tenant management, booking systems, and payment processing with responsive design.
+          </p>
+          <div class="project-technologies">
+            <span class="tech-tag">Angular</span>
+            <span class="tech-tag">TypeScript</span>
+            <span class="tech-tag">REST API</span>
+            <span class="tech-tag">JavaScript</span>
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/nessmattcash/Angular" class="project-link" target="_blank">
+              <i class="fab fa-github"></i> View Code
+            </a>
+            <button class="read-more-btn" data-project="apartments">
+              <i class="fas fa-external-link-alt"></i> Read More
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Workroom Monitoring Project -->
+      <div class="project-card fade-in">
+        <div class="project-image-container">
+          <img src="img/mon.jpg" alt="Workroom Monitoring Project" class="project-image">
+        </div>
+        <div class="project-content">
+          <h3 class="project-title">
+            <i class="fas fa-microchip"></i>
+            Workroom Monitoring System
+          </h3>
+          <p class="project-period">Sep 2023 - Jan 2024</p>
+          <p class="project-description">
+            Microcontroller-based system for monitoring and controlling environmental conditions in common workrooms with temperature, humidity, lighting sensors and automated adjustments.
+          </p>
+          <div class="project-technologies">
+            <span class="tech-tag">Embedded C</span>
+            <span class="tech-tag">mikroC</span>
+            <span class="tech-tag">ISIS</span>
+            <span class="tech-tag">IoT</span>
+          </div>
+          <div class="project-links">
+            <button class="read-more-btn" data-project="workroom">
+              <i class="fas fa-external-link-alt"></i> Read More
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="social-links">
+      <a href="https://www.linkedin.com/in/aziz-mehdi-400a2a292/" class="social-link" target="_blank">
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+      <a href="https://github.com/nessmattcash" class="social-link" target="_blank">
+        <i class="fab fa-github"></i>
+      </a>
+      <a href="https://www.facebook.com/DeepFlowEsprit?locale=fr_FR" class="social-link" target="_blank">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+    </div>
+    <p>&copy; 2025 Aziz Mehdi. All Rights Reserved.</p>
+  </footer>
+
+  <!-- Project Modals -->
+  <div class="modal" id="projectModal">
+    <div class="modal-content">
+      <button class="close-modal" id="closeModal">&times;</button>
+      <h2 class="modal-title" id="modalTitle"></h2>
+      <p class="modal-period" id="modalPeriod"></p>
+      <div class="modal-description" id="modalDescription"></div>
+      <div class="modal-technologies" id="modalTechnologies"></div>
+    </div>
+  </div>
+
+  <script>
+    // Loading Screen
+    window.addEventListener('load', function() {
+      const loadingScreen = document.getElementById('loadingScreen');
+      setTimeout(() => {
+        loadingScreen.classList.add('hidden');
+      }, 1000);
+    });
+
+    // Dynamic Background Animation
+    function createBackground() {
+      const bgAnimation = document.getElementById('bgAnimation');
+      const squareCount = 15;
+      
+      for (let i = 0; i < squareCount; i++) {
+        const square = document.createElement('div');
+        square.classList.add('bg-square');
+        
+        const size = Math.random() * 60 + 20;
+        square.style.width = `${size}px`;
+        square.style.height = `${size}px`;
+        square.style.left = `${Math.random() * 100}%`;
+        square.style.top = `${Math.random() * 100}%`;
+        
+        const duration = Math.random() * 20 + 10;
+        const delay = Math.random() * 5;
+        square.style.animationDuration = `${duration}s`;
+        square.style.animationDelay = `${delay}s`;
+        
+        bgAnimation.appendChild(square);
+      }
+    }
+
+    // Navigation scroll effect
+    function handleScroll() {
+      const navigation = document.getElementById('navigation');
+      if (window.scrollY > 50) {
+        navigation.classList.add('scrolled');
+      } else {
+        navigation.classList.remove('scrolled');
+      }
+    }
+
+    // Mobile menu toggle
+    function setupMobileMenu() {
+      const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+      const navLinks = document.querySelector('.nav-links');
+      
+      mobileMenuBtn.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        mobileMenuBtn.innerHTML = navLinks.classList.contains('active') 
+          ? '<i class="fas fa-times"></i>' 
+          : '<i class="fas fa-bars"></i>';
+      });
+    }
+
+    // Fade-in animation on scroll
+    function setupScrollAnimations() {
+      const fadeElements = document.querySelectorAll('.fade-in');
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      fadeElements.forEach(el => observer.observe(el));
+    }
+
+    // Generation animation for title
+    function setupGenerationAnimation() {
+      const generationElement = document.querySelector('.generation-animation');
+      
+      setTimeout(() => {
+        generationElement.classList.add('animate');
+      }, 500);
+    }
+
+    // Project modal functionality
+    function setupProjectModals() {
+      const modal = document.getElementById('projectModal');
+      const closeModal = document.getElementById('closeModal');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalPeriod = document.getElementById('modalPeriod');
+      const modalDescription = document.getElementById('modalDescription');
+      const modalTechnologies = document.getElementById('modalTechnologies');
+      
+      const projectDetails = {
+        shadowhire: {
+          title: "ShadowHire – AI-Powered Job Matching Platform",
+          period: "Jul 2025 - Present",
+          description: `
+            <p>ShadowHire is an advanced AI-powered recruitment platform designed to transform the hiring process through intelligent automation and machine learning. The platform bridges the gap between candidates and recruiters with smart, data-driven solutions.</p>
+            
+            <h4>🎯 Key Features:</h4>
+            <ul>
+              <li><strong>Resume Parsing & NER Extraction:</strong> Advanced BERT multilingual model for extracting skills, education, and experience from resumes</li>
+              <li><strong>Automated CV Scoring:</strong> Intelligent scoring system with personalized feedback and improvement suggestions</li>
+              <li><strong>AI-Driven Job Matching:</strong> Semantic similarity algorithms for optimal candidate-job matching</li>
+              <li><strong>Bilingual Chatbot:</strong> RAG-based assistant (FR/EN) for candidate support and guidance</li>
+              <li><strong>Recruiter Dashboard:</strong> Comprehensive analytics, candidate management, and job posting tools</li>
+            </ul>
+            
+            <h4>🏗️ Technical Architecture:</h4>
+            <p>The platform features a microservices architecture with Angular frontend, Django REST backend, and Flask microservices for AI capabilities. Containerized with Docker and deployed on Azure with full CI/CD pipelines using GitHub Actions and Jenkins. Monitoring is handled through Prometheus and Grafana for optimal performance tracking.</p>
+            
+            <p>ShadowHire represents the future of recruitment - transparent, efficient, and powered by cutting-edge AI technology.</p>
+          `,
+          technologies: ['Angular', 'Django', 'Flask', 'MySQL', 'Docker', 'Azure', 'Jenkins', 'Prometheus', 'Grafana', 'BERT', 'Transformers', 'HuggingFace', 'TF-IDF', 'Semantic Search', 'RAG', 'NLP']
+        },
+        naturelink: {
+          title: "NatureLink – Cloud-Native Tourism Platform",
+          period: "Oct 2024 - May 2025 | ESPRIT",
+          description: `
+            <p>NatureLink is a comprehensive tourism platform built on a sophisticated hybrid cloud infrastructure. This integration project involved designing and deploying a complete cloud ecosystem from the ground up.</p>
+            
+            <h4>☁️ Infrastructure & Deployment:</h4>
+            <ul>
+              <li><strong>OpenStack Cloud:</strong> Designed and deployed with 5 compute nodes, 1 controller, and 1 storage node</li>
+              <li><strong>Services:</strong> Keystone, Cinder, Heat, Swift, Octavia, Nova, Neutron</li>
+              <li><strong>Automation:</strong> Full infrastructure provisioning with Ansible playbooks</li>
+              <li><strong>Containerization:</strong> Docker containers orchestrated with Kubernetes</li>
+              <li><strong>Monitoring:</strong> Comprehensive monitoring stack with Prometheus and Grafana</li>
+              <li><strong>Hybrid Cloud:</strong> Deployed across OpenStack and Azure for optimal performance</li>
+            </ul>
+            
+            <h4>🚀 Platform Features:</h4>
+            <ul>
+              <li><strong>Full-Stack Application:</strong> Spring Boot backend with Angular frontend</li>
+              <li><strong>AI Integration:</strong> Face recognition, intelligent chatbots, image generation with DALL·E</li>
+              <li><strong>Personalized Recommendations:</strong> AI-powered suggestion engine for tourism activities</li>
+              <li><strong>Real-time Analytics:</strong> Comprehensive dashboard for platform insights</li>
+            </ul>
+            
+            <p>This project demonstrated end-to-end cloud infrastructure design, from bare metal to production deployment, showcasing expertise in cloud architecture, automation, and full-stack development.</p>
+          `,
+          technologies: ['OpenStack', 'Kubernetes', 'Spring Boot', 'Angular', 'Docker', 'Ansible', 'Prometheus', 'Grafana', 'Azure', 'Python', 'Flask', 'AI Integration', 'Face Recognition', 'Chatbots', 'DALL·E', 'Terraform', 'Git']
+        },
+        blooddonation: {
+          title: "Blood Donation Management System",
+          period: "Sep 2023 - Jan 2024 | ESPRIT",
+          description: `
+            <p>This system, developed in C, streamlines the operations of blood transfusion centers to ensure a reliable and safe blood supply for medical needs.</p>
+            
+            <h4>🩸 Key Features:</h4>
+            <ul>
+              <li><strong>Donor Management:</strong> Tracking donor information and history with comprehensive profiles</li>
+              <li><strong>Appointment Scheduling:</strong> Managing blood donation appointments and availability</li>
+              <li><strong>Blood Inventory:</strong> Maintaining detailed records of blood storage, types, and distribution</li>
+              <li><strong>Compliance Monitoring:</strong> Ensuring adherence to health and safety regulations</li>
+              <li><strong>Analytics & Reporting:</strong> Generating comprehensive reports for operational efficiency</li>
+            </ul>
+            
+            <h4>💻 Technical Implementation:</h4>
+            <p>Built using C with GTK for the user interface, integrated with Git for version control, and deployed on Ubuntu with Linux system administration practices. The system ensures high standards of safety and efficiency in blood transfusion operations.</p>
+            
+            <p>This project demonstrates strong fundamentals in system programming and user interface development while addressing critical healthcare needs.</p>
+          `,
+          technologies: ['C', 'GTK', 'Git', 'Ubuntu', 'Linux', 'System Programming']
+        },
+        housing: {
+          title: "University Student Housing Management System",
+          period: "Jan 2025 - Apr 2025",
+          description: `
+            <p>This Spring Boot-based backend system manages university student housing (foyers) with advanced services to streamline operations and enhance student experience.</p>
+            
+            <h4>🏠 Key Features:</h4>
+            <ul>
+              <li><strong>Room Allocation:</strong> Automated assignment of rooms based on student preferences, availability, and special requirements</li>
+              <li><strong>Maintenance Requests:</strong> Comprehensive system for submitting, tracking, and resolving maintenance issues</li>
+              <li><strong>Payment Tracking:</strong> Managing student housing fees, payment schedules, and financial records</li>
+              <li><strong>Student Profiles:</strong> Centralized database for student information, housing history, and preferences</li>
+              <li><strong>Reporting & Analytics:</strong> Detailed reports on occupancy, maintenance, and financial performance</li>
+            </ul>
+            
+            <h4>🔧 Technical Details:</h4>
+            <p>The system was developed using Spring Boot for the backend, with a MySQL database for data persistence. REST APIs were implemented for seamless integration with potential frontend applications, ensuring scalability and efficiency. The architecture follows microservices principles for maintainability and future expansion.</p>
+          `,
+          technologies: ['Spring Boot', 'Java', 'REST API', 'MySQL', 'Microservices', 'JPA', 'Maven']
+        },
+        apartments: {
+          title: "Apartment and House Management System",
+          period: "Jan 2025 - Mar 2025",
+          description: `
+            <p>An Angular-based web application designed to manage apartments and houses with a focus on user-friendly interfaces, robust functionality, and modern web development practices.</p>
+            
+            <h4>🏡 Key Features:</h4>
+            <ul>
+              <li><strong>Property Listing:</strong> Comprehensive listing of available properties with detailed descriptions, images, and specifications</li>
+              <li><strong>Tenant Management:</strong> Complete tenant information management, lease agreements, and communication tools</li>
+              <li><strong>Booking System:</strong> Online booking for property viewings, reservations, and scheduling</li>
+              <li><strong>Payment Processing:</strong> Integrated payment system for rent, fees, and financial transactions</li>
+              <li><strong>Document Management:</strong> Secure storage and management of contracts, agreements, and property documents</li>
+            </ul>
+            
+            <h4>⚡ Technical Implementation:</h4>
+            <p>Developed using Angular with TypeScript, the application features responsive design, REST API integration for backend communication, and modern UI/UX principles. The project emphasizes component-based architecture, reactive programming with RxJS, and state management for optimal performance and maintainability.</p>
+          `,
+          technologies: ['Angular', 'TypeScript', 'REST API', 'JavaScript', 'RxJS', 'HTML5', 'CSS3', 'Responsive Design']
+        },
+        workroom: {
+          title: "Workroom Monitoring and Control System",
+          period: "Sep 2023 - Jan 2024 | ESPRIT",
+          description: `
+            <p>This project focuses on creating a microcontroller-based monitoring and control system for a common workroom to ensure optimal environmental conditions and energy efficiency.</p>
+            
+            <h4>🔍 Key Features:</h4>
+            <ul>
+              <li><strong>Environmental Monitoring:</strong> Real-time tracking of temperature, humidity, and lighting conditions using precision sensors</li>
+              <li><strong>Automatic Adjustments:</strong> Actuators and control systems to maintain optimal environmental conditions automatically</li>
+              <li><strong>Occupancy Detection:</strong> Advanced sensors to detect room usage patterns and optimize resource allocation</li>
+              <li><strong>Energy-Saving Measures:</strong> Automated controls and scheduling to reduce energy consumption and costs</li>
+              <li><strong>Remote Monitoring:</strong> Web interface for remote monitoring and control of workroom conditions</li>
+            </ul>
+            
+            <h4>🔌 Technical Implementation:</h4>
+            <p>The system was developed using Embedded C and mikroC, with circuit design and simulation performed in ISIS. The project showcases expertise in embedded systems, IoT principles, and smart environment control. The architecture includes sensor networks, data processing algorithms, and actuator control systems.</p>
+            
+            <p>This project enhances productivity, comfort, and sustainability in shared workspaces through intelligent automation and smart control systems.</p>
+          `,
+          technologies: ['Embedded C', 'mikroC', 'ISIS', 'IoT', 'Sensor Networks', 'Microcontrollers', 'Circuit Design']
+        }
+      };
+      
+      document.querySelectorAll('.read-more-btn').forEach(button => {
+        button.addEventListener('click', () => {
+          const projectId = button.getAttribute('data-project');
+          const project = projectDetails[projectId];
+          
+          if (project) {
+            modalTitle.textContent = project.title;
+            modalPeriod.textContent = project.period;
+            modalDescription.innerHTML = project.description;
+            
+            modalTechnologies.innerHTML = '';
+            project.technologies.forEach(tech => {
+              const tag = document.createElement('span');
+              tag.className = 'modal-tech-tag';
+              tag.textContent = tech;
+              modalTechnologies.appendChild(tag);
+            });
+            
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+          }
+        });
+      });
+      
+      closeModal.addEventListener('click', () => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      });
+      
+      window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.style.display = 'none';
+          document.body.style.overflow = 'auto';
+        }
+      });
+    }
+
+    // Initialize everything when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      createBackground();
+      setupMobileMenu();
+	  setupTypingAnimation();
+	  setupHeroAnimation();
+      setupScrollAnimations();
+      setupGenerationAnimation();
+      setupProjectModals();
+      window.addEventListener('scroll', handleScroll);
+    });
+	// Typing animation for project descriptions
+function setupTypingAnimation() {
+  const descriptionElements = document.querySelectorAll('.project-description');
+  
+  descriptionElements.forEach((element, index) => {
+    const fullText = element.textContent;
+    element.textContent = '';
+    element.setAttribute('data-full-text', fullText);
+    
+    let charIndex = 0;
+    let currentText = '';
+    
+    function type() {
+      if (charIndex < fullText.length) {
+        currentText = fullText.substring(0, charIndex + 1);
+        element.innerHTML = currentText + '<span class="typing-text"></span>';
+        charIndex++;
+        setTimeout(type, 20);
+      } else {
+        element.innerHTML = currentText;
+      }
+    }
+    
+    // Start typing with a delay for each project
+    setTimeout(type, index * 1000);
+  });
+}
+// Initialize everything when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+  createBackground();
+  setupMobileMenu();
+  setupScrollAnimations();
+
+  setupGenerationAnimation();
+  setupTypingAnimation(); // ADD THIS LINE
+  setupProjectModals();
+  window.addEventListener('scroll', handleScroll);
+});
+// Word animation for hero section
+function setupHeroAnimation() {
+  const heroTitle = document.querySelector('.projects-hero h1');
+  const heroSubtitle = document.querySelector('.projects-hero p');
+  
+  // Store original content
+  const originalTitle = heroTitle.innerHTML;
+  const originalSubtitle = heroSubtitle.textContent;
+  
+  // Clear content
+  heroTitle.innerHTML = '';
+  heroSubtitle.textContent = '';
+  
+  // Animate "My" word
+  setTimeout(() => {
+    const mySpan = document.createElement('span');
+    mySpan.textContent = 'My'; // Remove space here
+    mySpan.style.opacity = '0';
+    mySpan.style.transform = 'translateY(20px)';
+    mySpan.style.transition = 'all 0.6s ease';
+    heroTitle.appendChild(mySpan);
+    
+    // Add space after "My"
+    const spaceSpan = document.createElement('span');
+    spaceSpan.textContent = ' ';
+    spaceSpan.style.opacity = '0';
+    heroTitle.appendChild(spaceSpan);
+    
+    // Animate in
+    setTimeout(() => {
+      mySpan.style.opacity = '1';
+      mySpan.style.transform = 'translateY(0)';
+      spaceSpan.style.opacity = '1';
+    }, 100);
+  }, 500);
+  
+  // Animate "Projects" with the existing generation animation
+  setTimeout(() => {
+    const projectsSpan = document.createElement('span');
+    projectsSpan.className = 'generation-animation';
+    projectsSpan.textContent = 'Projects';
+    projectsSpan.style.opacity = '0';
+    projectsSpan.style.transform = 'translateY(20px)';
+    projectsSpan.style.transition = 'all 0.6s ease';
+    heroTitle.appendChild(projectsSpan);
+    
+    // Animate in
+    setTimeout(() => {
+      projectsSpan.style.opacity = '1';
+      projectsSpan.style.transform = 'translateY(0)';
+      
+      // Trigger the underline animation after fade in
+      setTimeout(() => {
+        projectsSpan.classList.add('animate');
+      }, 300);
+    }, 100);
+  }, 800);
+  
+  // Animate subtitle word by word
+  const subtitleWords = originalSubtitle.split(' ');
+  heroSubtitle.textContent = '';
+  
+  subtitleWords.forEach((word, index) => {
+    setTimeout(() => {
+      const wordSpan = document.createElement('span');
+      wordSpan.textContent = word + (index < subtitleWords.length - 1 ? ' ' : '');
+      wordSpan.style.opacity = '0';
+      wordSpan.style.transform = 'translateY(10px)';
+      wordSpan.style.transition = 'all 0.5s ease';
+      heroSubtitle.appendChild(wordSpan);
+      
+      // Animate in
+      setTimeout(() => {
+        wordSpan.style.opacity = '1';
+        wordSpan.style.transform = 'translateY(0)';
+      }, 50);
+    }, 1200 + (index * 100));
+  });
+}
+  </script>
+</body>
+</html>

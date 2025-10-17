@@ -1,136 +1,1611 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Acceuil</title>
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/style.css">
-  <script src="js/test_contact.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aziz Mehdi | Cloud & AI Specialist</title>
+  <link rel="icon" type="image/x-icon" href="img/mylogo.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #0d223f;
+      --secondary: #1a365d;
+      --accent: #64ffda;
+      --accent-light: #8affff;
+      --text-primary: #e6f1ff;
+      --text-secondary: #a8b2d1;
+      --card-bg: rgba(30, 61, 107, 0.7);
+      --transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
+      --glow: 0 0 15px rgba(100, 255, 218, 0.5);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Calibre', 'Inter', 'San Francisco', 'SF Pro Text', -apple-system, system-ui, sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--primary);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* Loading Screen */
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--primary);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+    .loading-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loader {
+      width: 80px;
+      height: 80px;
+      position: relative;
+    }
+
+    .loader-square {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: var(--accent);
+      animation: loaderMove 1.5s infinite ease-in-out;
+    }
+
+    .loader-square:nth-child(1) {
+      top: 0;
+      left: 0;
+      animation-delay: 0s;
+    }
+
+    .loader-square:nth-child(2) {
+      top: 0;
+      right: 0;
+      animation-delay: 0.2s;
+    }
+
+    .loader-square:nth-child(3) {
+      bottom: 0;
+      right: 0;
+      animation-delay: 0.4s;
+    }
+
+    .loader-square:nth-child(4) {
+      bottom: 0;
+      left: 0;
+      animation-delay: 0.6s;
+    }
+
+    @keyframes loaderMove {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(0.5);
+        opacity: 0.5;
+      }
+    }
+
+    /* Dynamic Background */
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .bg-square {
+      position: absolute;
+      background: rgba(100, 255, 218, 0.05);
+      border: 1px solid rgba(100, 255, 218, 0.15);
+      border-radius: 5px;
+      animation: float 15s infinite linear;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0.7;
+      }
+      50% {
+        transform: translateY(-20px) rotate(180deg);
+        opacity: 0.3;
+      }
+      100% {
+        transform: translateY(0) rotate(360deg);
+        opacity: 0.7;
+      }
+    }
+
+    /* Navigation */
+    .navigation {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 1.2rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: rgba(13, 34, 63, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      transition: var(--transition);
+      border-bottom: 1px solid rgba(100, 255, 218, 0.1);
+    }
+
+    .navigation.scrolled {
+      padding: 0.8rem 2rem;
+      box-shadow: 0 10px 30px -10px rgba(2, 12, 27, 0.7);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--accent);
+    }
+
+    .logo img {
+      height: 35px;
+      margin-right: 10px;
+      transition: var(--transition);
+    }
+
+    .logo:hover img {
+      transform: rotate(15deg);
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+
+    .nav-links li {
+      margin-left: 1.8rem;
+    }
+
+    .nav-links a {
+      color: var(--text-primary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 0.5rem 0;
+      position: relative;
+      transition: var(--transition);
+      font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--accent);
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--accent);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 0 2rem;
+      position: relative;
+    }
+
+    .hero-content {
+      max-width: 1000px;
+      margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .hero-text {
+      max-width: 600px;
+      padding-top: 2rem;
+    }
+
+    .hero-greeting {
+      color: var(--accent);
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+    }
+
+    .hero-name {
+      font-size: clamp(2.5rem, 8vw, 4.5rem);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+      text-shadow: 0 0 10px rgba(100, 255, 218, 0.3);
+    }
+
+    .hero-title {
+      font-size: clamp(1.5rem, 4vw, 2.8rem);
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      color: var(--text-secondary);
+    }
+
+    .hero-description {
+      max-width: 540px;
+      margin-bottom: 3rem;
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+    }
+
+    .typing-text {
+      border-right: 2px solid var(--accent);
+      animation: blink 1s infinite;
+      display: inline-block;
+    }
+
+    @keyframes blink {
+      0%, 100% { border-color: transparent; }
+      50% { border-color: var(--accent); }
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 1rem 1.75rem;
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 4px;
+      text-decoration: none;
+      font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+      font-size: 0.9rem;
+      transition: var(--transition);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(100, 255, 218, 0.2), transparent);
+      transition: 0.5s;
+    }
+
+    .cta-button:hover {
+      background: rgba(100, 255, 218, 0.1);
+      transform: translateY(-3px);
+      box-shadow: var(--glow);
+    }
+
+    .cta-button:hover::before {
+      left: 100%;
+    }
+
+    .hero-profile {
+      position: relative;
+      display: flex;
+      justify-content: center;
+    }
+
+    .circle-profile-frame {
+      width: 320px;
+      height: 320px;
+      position: relative;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: var(--glow);
+      transition: var(--transition);
+    }
+
+    .circle-profile-frame::before {
+      content: '';
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      right: -4px;
+      bottom: -4px;
+      background: linear-gradient(45deg, var(--accent), var(--accent-light), var(--accent));
+      z-index: -1;
+      border-radius: 50%;
+      animation: borderGlow 3s linear infinite;
+    }
+
+    @keyframes borderGlow {
+      0% {
+        filter: hue-rotate(0deg);
+      }
+      100% {
+        filter: hue-rotate(360deg);
+      }
+    }
+
+    .circle-profile-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition);
+    }
+
+    .circle-profile-frame:hover .circle-profile-image {
+      transform: scale(1.05);
+    }
+
+    /* About Section */
+    .section {
+      padding: 6rem 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      margin-bottom: 3rem;
+      font-size: 2rem;
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+
+    .section-title::after {
+      content: '';
+      display: block;
+      height: 1px;
+      width: 300px;
+      background-color: var(--text-secondary);
+      margin-left: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .about-content {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+
+    .about-text {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .about-text p {
+      margin-bottom: 1.5rem;
+    }
+
+    /* CV Download Section */
+    .cv-section {
+      text-align: center;
+      padding: 4rem 2rem;
+      background: rgba(26, 54, 93, 0.5);
+      border-radius: 10px;
+      margin: 2rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cv-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, transparent, rgba(100, 255, 218, 0.05), transparent);
+      z-index: -1;
+    }
+
+    .cv-title {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      color: var(--text-primary);
+    }
+
+    .cv-description {
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto 2rem;
+    }
+
+    .cv-download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 1rem 2rem;
+      background: linear-gradient(45deg, var(--accent), var(--accent-light));
+      color: var(--primary);
+      border: none;
+      border-radius: 4px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 4px 15px rgba(100, 255, 218, 0.3);
+    }
+
+    .cv-download-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(100, 255, 218, 0.5);
+    }
+
+    /* Skills Section */
+    .skills-categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .skills-category {
+      background-color: var(--card-bg);
+      padding: 2rem;
+      border-radius: 10px;
+      border: 1px solid rgba(100, 255, 218, 0.1);
+      transition: var(--transition);
+    }
+
+    .skills-category:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent);
+      box-shadow: var(--glow);
+    }
+
+    .category-title {
+      font-size: 1.3rem;
+      margin-bottom: 1.5rem;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .category-title i {
+      font-size: 1.2rem;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 1rem;
+    }
+
+    .skill-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem;
+      border-radius: 5px;
+      background: rgba(30, 61, 107, 0.5);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skill-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-light));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .skill-item:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent);
+      box-shadow: 0 5px 15px rgba(100, 255, 218, 0.2);
+    }
+
+    .skill-item:hover::before {
+      transform: scaleX(1);
+    }
+
+    .skill-icon {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+      color: var(--accent);
+    }
+
+    .skill-name {
+      font-size: 0.8rem;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    /* Projects Section */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .project-card {
+      background-color: var(--card-bg);
+      padding: 2rem;
+      border-radius: 10px;
+      border: 1px solid rgba(100, 255, 218, 0.1);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent);
+      box-shadow: var(--glow);
+    }
+
+    .project-title {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      color: var(--accent);
+    }
+
+    .project-description {
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .project-technologies {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tech-tag {
+      background: rgba(100, 255, 218, 0.1);
+      color: var(--accent);
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+    }
+
+    .project-links {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: var(--transition);
+    }
+
+    .project-link:hover {
+      transform: translateY(-2px);
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 25, 47, 0.9);
+      z-index: 2000;
+      overflow-y: auto;
+      padding: 2rem;
+    }
+
+    .modal-content {
+      background: var(--secondary);
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 3rem;
+      border-radius: 10px;
+      position: relative;
+      border: 1px solid var(--accent);
+      box-shadow: var(--glow);
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      color: var(--accent);
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .close-modal:hover {
+      transform: rotate(90deg);
+    }
+
+    .modal-title {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: var(--accent);
+    }
+
+    .modal-description {
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 2rem;
+    }
+
+    .modal-technologies {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .modal-tech-tag {
+      background: rgba(100, 255, 218, 0.1);
+      color: var(--accent);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+    }
+
+    .read-more-btn {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 0.7rem 1.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+    }
+
+    .read-more-btn:hover {
+      background: rgba(100, 255, 218, 0.1);
+      transform: translateY(-2px);
+    }
+
+    /* Contact Section */
+    .contact-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      color: var(--text-secondary);
+      transition: var(--transition);
+      padding: 1rem;
+      border-radius: 5px;
+      background: rgba(30, 61, 107, 0.5);
+    }
+
+    .contact-item:hover {
+      color: var(--accent);
+      background: rgba(30, 61, 107, 0.8);
+      transform: translateX(5px);
+    }
+
+    .contact-icon {
+      font-size: 1.2rem;
+      width: 30px;
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .form-group {
+      position: relative;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 1rem;
+      background-color: var(--secondary);
+      border: 1px solid rgba(100, 255, 218, 0.1);
+      border-radius: 4px;
+      color: var(--text-primary);
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(100, 255, 218, 0.2);
+    }
+
+    .form-textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    .submit-btn {
+      align-self: flex-start;
+      padding: 1rem 1.75rem;
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 4px;
+      font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+      font-size: 0.9rem;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .submit-btn:hover {
+      background: rgba(100, 255, 218, 0.1);
+      transform: translateY(-3px);
+      box-shadow: var(--glow);
+    }
+
+    /* Footer */
+    .footer {
+      padding: 2rem;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(100, 255, 218, 0.1);
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .social-link {
+      color: var(--text-secondary);
+      font-size: 1.2rem;
+      transition: var(--transition);
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(30, 61, 107, 0.5);
+    }
+
+    .social-link:hover {
+      color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: var(--glow);
+    }
+
+    /* Animations */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Light Effects */
+    .light-effect {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(100, 255, 218, 0.1) 0%, rgba(100, 255, 218, 0) 70%);
+      filter: blur(20px);
+      z-index: -1;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .navigation {
+        padding: 1rem;
+      }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: var(--primary);
+        flex-direction: column;
+        padding: 1rem 0;
+        box-shadow: 0 10px 30px -10px rgba(2, 12, 27, 0.7);
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .nav-links li {
+        margin: 0.5rem 0;
+        text-align: center;
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      .hero-content {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-container {
+        grid-template-columns: 1fr;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title::after {
+        width: 150px;
+      }
+
+      .circle-profile-frame {
+        width: 280px;
+        height: 280px;
+      }
+
+      .modal-content {
+        padding: 2rem;
+        margin: 1rem;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <!-- Loading Screen -->
+  <div class="loading-screen" id="loadingScreen">
+    <div class="loader">
+      <div class="loader-square"></div>
+      <div class="loader-square"></div>
+      <div class="loader-square"></div>
+      <div class="loader-square"></div>
+    </div>
+  </div>
 
-	<!-- SECTION: Splashscreen -->
-	<div class="splashscreen">
-		<div class="preloader">
-			<span class="preloader__text">Loading</span>
-		</div>
-	</div>
-	<!-- END SECTION: Splashscreen -->
-	
-	<!-- SECTION: Intro -->
-	<header class="header">
-		<!-- SECTION: Navigation -->
-	<div id="top" class="navigation">
-		<div class="navigation__wrapper wrapper--large">
-			<a class="rot" class="navigation__logo logo" href="#0"><img src="img/logo.png" alt="" width="70"></a>
-			<nav class="navigation__container">
-				<ul class="navigation__list">
-					<li><a href="index.html">Home</a></li>
-					<li><a href="parcours.html">Academic Path</a></li>
-					<li><a href="experience.html">Experience</a></li>
-					<li><a href="contact.html">Info</a></li>
-				</ul>
-			</nav>
-			<a class="imgP" class="navigation__logo logo" href="#0"><img src="img/photo.png" alt="" width="70"></a>
-			
-			
-		</div>
-	</div>
-	<!-- END SECTION: Navigation -->
-	</header>
-	<!-- END SECTION: Intro -->
-	<main role="main">
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<!-- SECTION: About -->
-		<section id="contact" class="contact">
+  <!-- Dynamic Background -->
+  <div class="bg-animation" id="bgAnimation"></div>
+  
+  <!-- Light Effects -->
+  <div class="light-effect" style="top: 10%; left: 10%;"></div>
+  <div class="light-effect" style="top: 60%; right: 10%;"></div>
 
-			<div class="about__content" >
+  <!-- Navigation -->
+  <nav class="navigation" id="navigation">
+    <div class="logo">
+      <img src="img/mylogo.png" alt="Aziz Mehdi Logo">
+      <span>Aziz Mehdi</span>
+    </div>
+    
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#cv">Resume</a></li>
+      <li><a href="parcours.html">Education</a></li>
+      <li><a href="experience.html">Experience</a></li>
+<li><a href="projects.html">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    
+    <button class="mobile-menu-btn" id="mobileMenuBtn">
+      <i class="fas fa-bars"></i>
+    </button>
+  </nav>
 
-					
-					<p style="text-align:center;"><img src="img/image1.jpg" width="1000" 
-						></p>
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <div class="hero-text">
+        <p class="hero-greeting fade-in">Hi, my name is</p>
+        <h1 class="hero-name fade-in">Aziz Mehdi.</h1>
+        <h2 class="hero-title fade-in">Cloud & DevOps Student & AI Enthusiast</h2>
+        <p class="hero-description fade-in" id="typingDescription">
+          <!-- Text will be populated by JavaScript -->
+        </p>
+        <a href="#contact" class="cta-button fade-in">Get In Touch</a>
+      </div>
+      <div class="hero-profile fade-in">
+        <div class="circle-profile-frame">
+          <img src="img/aziz.jpg" alt="Aziz Mehdi" class="circle-profile-image">
+        </div>
+      </div>
+    </div>
+  </section>
 
-				<!-- Simple form setup: formspree.io -->
-				
-			</div>
+  <!-- About Section -->
+  <section class="section" id="about">
+    <h2 class="section-title fade-in">About Me</h2>
+    <div class="about-content">
+      <div class="about-text fade-in">
+        <p>
+          I'm a final-year Computer Science student at ESPRIT with a strong passion for Cloud Computing, DevOps, and Artificial Intelligence. My journey in technology has been driven by a desire to create innovative solutions that solve real-world problems.
+        </p>
+        <p>
+          With expertise spanning across modern cloud infrastructure, containerization, automation, and machine learning, I specialize in building scalable, efficient systems that leverage cutting-edge technologies. I'm particularly fascinated by the intersection of cloud-native development and AI-powered applications.
+        </p>
+        <p>
+          When I'm not immersed in code or studying, I'm constantly exploring new technologies, contributing to open-source projects, and expanding my knowledge in cloud architecture and artificial intelligence. I believe in continuous learning and staying at the forefront of technological innovation.
+        </p>
+      </div>
+    </div>
+  </section>
 
-				
-		</section>
-		<section id="contact" class="contact" >
-			<h2 class="contact__heading title">About Me</h2>
-			<hr>
-			<div class=" ">
-				
-			  <p class="text" style="text-align: center; margin-left: 150;" >
-				An IT student at Esprit, I am dedicated to honing my skills and knowledge in the dynamic world of
-				information technology. With a passion for problem-solving and innovation. I'm committed to
-				collaborating with peers and faculty to achieve academic excellence and prepare myself for a
-				successful career in the IT field.</p>
-			</div>
-			
-		</section>
+  <!-- Skills Section -->
+  <section class="section" id="skills">
+    <h2 class="section-title fade-in">Skills & Technologies</h2>
+    <div class="skills-categories">
+      <div class="skills-category fade-in">
+        <h3 class="category-title"><i class="fas fa-cloud"></i> Cloud & DevOps</h3>
+        <div class="skills-grid">
+          <div class="skill-item">
+            <div class="skill-icon"><i class="fab fa-aws"></i></div>
+            <div class="skill-name">AWS</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon"><i class="fas fa-cloud"></i></div>
+            <div class="skill-name">Azure</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon"><i class="fab fa-docker"></i></div>
+            <div class="skill-name">Docker</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon"><i class="fas fa-cubes"></i></div>
+            <div class="skill-name">Kubernetes</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon"><i class="fab fa-jenkins"></i></div>
+            <div class="skill-name">Jenkins</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon"><i class="fas fa-code-branch"></i></div>
+            <div class="skill-name">Git</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon"><i class="fas fa-server"></i></div>
+            <div class="skill-name">Terraform</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon"><i class="fas fa-cogs"></i></div>
+            <div class="skill-name">Ansible</div>
+          </div>
+        </div>
+      </div>
 
-		
-		<!-- END SECTION: About -->
+      <div class="skills-category fade-in">
+        <h3 class="category-title"><i class="fas fa-code"></i> Frameworks & Languages</h3>
+        <div class="skills-grid">
+          <div class="skill-item">
+            <div class="skill-icon"><i class="fab fa-python"></i></div>
+            <div class="skill-name">Python</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon"><i class="fab fa-java"></i></div>
+            <div class="skill-name">Java</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon"><i class="fab fa-js"></i></div>
+            <div class="skill-name">JavaScript</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon"><i class="fas fa-code"></i></div>
+            <div class="skill-name">C#</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon"><i class="fab fa-angular"></i></div>
+            <div class="skill-name">Angular</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon"><i class="fas fa-leaf"></i></div>
+            <div class="skill-name">Spring Boot</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon"><i class="fab fa-python"></i></div>
+            <div class="skill-name">Django</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon"><i class="fas fa-mobile"></i></div>
+            <div class="skill-name">Flutter</div>
+          </div>
+        </div>
+      </div>
 
-		<style>
-			.error {
-			  color: red;
-			}
-			
-		  </style>	
-		<!-- SECTION: Contact -->
-		<section id="contact" class="contact">
-			
-			<h2 class="contact__heading title">Contact Me</h2>
-			<div class="contact__wrapper wrapper--large">
-				<div class="contact__visual">
-					<img src="img/contact-visual.png" >
-				</div>
-				<!-- Simple form setup: formspree.io -->
-				
-				<form class="contact__form">
-					
-					<input class="contact__form-el contact__form-el--name" id="Name" name="Name" type="text" placeholder="Your Name" spellcheck="false" oninput="test_button()">
-					<input class="contact__form-el contact__form-el--email" id="email" name="email" type="email" placeholder="Your Email" spellcheck="false" oninput="test_button()">
-					<textarea class="contact__form-el contact__form-el--message" id="Message" name="Message" placeholder="Your Message" oninput="test_button()"></textarea>
-					<span id="nameError" class="error"></span>
-					<br>
-					<span id="emailError" class="error"></span>
-					<br>
-					<span id="msgError" class="error"></span>
-					<br>
-					<input class="contact__form-el contact__form-el--submit" id="send" name="send" type="submit" value="Send" disabled>
-					
-				</form>
-				
-			</div>
-			<span id="nameError" class="error"></span>
-					<br>
-					<span id="emailError" class="error"></span>
-					<br>
-					<span id="msgError" class="error"></span>
-					<br>
-		</section>
-		<!-- END SECTION: Contact -->
-	</main>
-	<!-- SECTION: Footer -->
-	<footer class="footer">
-		<div class="footer__wrapper wrapper--large">
-			<p class="footer__copyright no-margin">&copy; 2023 -Esprit</p>
-			
-		</div>
-	</footer>
-	<!-- END SECTION: Footer -->
+      <div class="skills-category fade-in">
+        <h3 class="category-title"><i class="fas fa-brain"></i> AI & Machine Learning</h3>
+        <div class="skills-grid">
+          <div class="skill-item">
+            <div class="skill-icon"><i class="fas fa-brain"></i></div>
+            <div class="skill-name">Machine Learning</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon"><i class="fas fa-robot"></i></div>
+            <div class="skill-name">Deep Learning</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon"><i class="fas fa-chart-line"></i></div>
+            <div class="skill-name">MLflow</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon"><i class="fas fa-network-wired"></i></div>
+            <div class="skill-name">Transformers</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon"><i class="fas fa-language"></i></div>
+            <div class="skill-name">NLP</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon"><i class="fas fa-eye"></i></div>
+            <div class="skill-name">Computer Vision</div>
+          </div>
+        </div>
+      </div>
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-	<script src="js/functions-min.js"></script>
+      <div class="skills-category fade-in">
+        <h3 class="category-title"><i class="fas fa-tools"></i> Monitoring & Databases</h3>
+        <div class="skills-grid">
+          <div class="skill-item">
+            <div class="skill-icon"><i class="fas fa-chart-bar"></i></div>
+            <div class="skill-name">Prometheus</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon"><i class="fas fa-chart-pie"></i></div>
+            <div class="skill-name">Grafana</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon"><i class="fas fa-database"></i></div>
+            <div class="skill-name">MySQL</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon"><i class="fas fa-database"></i></div>
+            <div class="skill-name">PostgreSQL</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon"><i class="fas fa-database"></i></div>
+            <div class="skill-name">MongoDB</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon"><i class="fas fa-database"></i></div>
+            <div class="skill-name">MariaDB</div>
+          </div>
+        </div>
+      </div>
 
+      <div class="skills-category fade-in">
+        <h3 class="category-title"><i class="fas fa-language"></i> Languages</h3>
+        <div class="skills-grid">
+          <div class="skill-item">
+            <div class="skill-icon">🇹🇳</div>
+            <div class="skill-name">Arabic (Native)</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon">🇫🇷</div>
+            <div class="skill-name">French (B2)</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon">🇬🇧</div>
+            <div class="skill-name">English (B2)</div>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon">🇪🇸</div>
+            <div class="skill-name">Spanish (Beginner)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
+  <!-- Projects Section -->
+  <section class="section" id="projects">
+    <h2 class="section-title fade-in">Featured Projects</h2>
+    <div class="projects-grid">
+      <div class="project-card fade-in">
+        <h3 class="project-title">ShadowHire – AI-Powered Job Matching Platform</h3>
+        <p class="project-description">
+          Jul 2025 - Present<br><br>
+          ShadowHire is an AI-powered recruitment platform that revolutionizes the hiring process through intelligent automation and machine learning. The platform combines modern web technologies with advanced AI capabilities to create a seamless experience for both candidates and recruiters.
+        </p>
+        <div class="project-technologies">
+          <span class="tech-tag">Angular</span>
+          <span class="tech-tag">Django</span>
+          <span class="tech-tag">Flask</span>
+          <span class="tech-tag">MySQL</span>
+          <span class="tech-tag">Docker</span>
+          <span class="tech-tag">Azure</span>
+          <span class="tech-tag">Jenkins</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/nessmattcash/shadowhire" class="project-link" target="_blank"><i class="fab fa-github"></i> View Code</a>
+          <button class="read-more-btn" data-project="shadowhire">Read More</button>
+        </div>
+      </div>
+      <div class="project-card fade-in">
+        <h3 class="project-title">NatureLink – Cloud-Native Tourism Platform</h3>
+        <p class="project-description">
+          Oct 2024 - May 2025<br><br>
+          NatureLink is a comprehensive tourism platform built on a hybrid cloud infrastructure. The project involved designing and deploying a full cloud infrastructure using OpenStack with automated provisioning, containerization, and advanced monitoring.
+        </p>
+        <div class="project-technologies">
+          <span class="tech-tag">OpenStack</span>
+          <span class="tech-tag">Kubernetes</span>
+          <span class="tech-tag">Spring Boot</span>
+          <span class="tech-tag">Angular</span>
+          <span class="tech-tag">Docker</span>
+          <span class="tech-tag">Ansible</span>
+          <span class="tech-tag">Prometheus</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/nessmattcash/NatureLink" class="project-link" target="_blank"><i class="fab fa-github"></i> View Code</a>
+          <button class="read-more-btn" data-project="naturelink">Read More</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CV Download Section -->
+  <section class="section" id="cv">
+    <h2 class="section-title fade-in">My Resume</h2>
+    <div class="cv-section fade-in">
+      <h2 class="cv-title">Download My CV</h2>
+      <p class="cv-description">
+        Want to know more about my professional background, education, and experience? 
+        Download my complete CV to get all the details.
+      </p>
+      <button class="cv-download-btn" id="cvDownloadBtn">
+        <i class="fas fa-download"></i>
+        Download CV (PDF)
+      </button>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="section" id="contact">
+    <h2 class="section-title fade-in">Get In Touch</h2>
+    <div class="contact-container">
+      <div class="contact-info fade-in">
+        <div class="contact-item">
+          <div class="contact-icon">
+            <i class="fas fa-map-marker-alt"></i>
+          </div>
+          <div class="contact-details">
+            <h3>Location</h3>
+            <p>Ariana, Tunisia</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">
+            <i class="fas fa-phone"></i>
+          </div>
+          <div class="contact-details">
+            <h3>Phone</h3>
+            <p>+216 28 285 576</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">
+            <i class="fas fa-envelope"></i>
+          </div>
+          <div class="contact-details">
+            <h3>Email</h3>
+            <p>azizmehdii21@gmail.com</p>
+          </div>
+        </div>
+      </div>
+      <form class="contact-form fade-in">
+        <div class="form-group">
+          <input type="text" class="form-input" placeholder="Your Name" required>
+        </div>
+        <div class="form-group">
+          <input type="email" class="form-input" placeholder="Your Email" required>
+        </div>
+        <div class="form-group">
+          <textarea class="form-input form-textarea" placeholder="Your Message" required></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="social-links">
+      <a href="https://www.linkedin.com/in/aziz-mehdi-400a2a292/" class="social-link" target="_blank">
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+      <a href="https://github.com/nessmattcash" class="social-link" target="_blank">
+        <i class="fab fa-github"></i>
+      </a>
+      <a href="https://www.facebook.com/DeepFlowEsprit?locale=fr_FR" class="social-link" target="_blank">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+    </div>
+    <p>&copy; 2025 Aziz Mehdi. All Rights Reserved.</p>
+  </footer>
+
+  <!-- Project Modals -->
+  <div class="modal" id="projectModal">
+    <div class="modal-content">
+      <button class="close-modal" id="closeModal">&times;</button>
+      <h2 class="modal-title" id="modalTitle"></h2>
+      <div class="modal-description" id="modalDescription"></div>
+      <div class="modal-technologies" id="modalTechnologies"></div>
+    </div>
+  </div>
+
+  <script>
+    // Loading Screen
+    window.addEventListener('load', function() {
+      const loadingScreen = document.getElementById('loadingScreen');
+      setTimeout(() => {
+        loadingScreen.classList.add('hidden');
+      }, 1000);
+    });
+
+    // Dynamic Background Animation
+    function createBackground() {
+      const bgAnimation = document.getElementById('bgAnimation');
+      const squareCount = 15;
+      
+      for (let i = 0; i < squareCount; i++) {
+        const square = document.createElement('div');
+        square.classList.add('bg-square');
+        
+        // Random size and position
+        const size = Math.random() * 60 + 20;
+        square.style.width = `${size}px`;
+        square.style.height = `${size}px`;
+        square.style.left = `${Math.random() * 100}%`;
+        square.style.top = `${Math.random() * 100}%`;
+        
+        // Random animation duration and delay
+        const duration = Math.random() * 20 + 10;
+        const delay = Math.random() * 5;
+        square.style.animationDuration = `${duration}s`;
+        square.style.animationDelay = `${delay}s`;
+        
+        bgAnimation.appendChild(square);
+      }
+    }
+
+    // Navigation scroll effect
+    function handleScroll() {
+      const navigation = document.getElementById('navigation');
+      if (window.scrollY > 50) {
+        navigation.classList.add('scrolled');
+      } else {
+        navigation.classList.remove('scrolled');
+      }
+    }
+
+    // Mobile menu toggle
+    function setupMobileMenu() {
+      const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+      const navLinks = document.querySelector('.nav-links');
+      
+      mobileMenuBtn.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        mobileMenuBtn.innerHTML = navLinks.classList.contains('active') 
+          ? '<i class="fas fa-times"></i>' 
+          : '<i class="fas fa-bars"></i>';
+      });
+    }
+
+    // CV Download functionality
+    function setupCVDownload() {
+      const cvDownloadBtn = document.getElementById('cvDownloadBtn');
+      
+      cvDownloadBtn.addEventListener('click', () => {
+        // Create a temporary link to trigger download
+        const link = document.createElement('a');
+        link.href = 'img/Aziz-Mehdi.pdf';
+        link.download = 'Aziz-Mehdi-CV.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      });
+    }
+
+    // Fade-in animation on scroll
+    function setupScrollAnimations() {
+      const fadeElements = document.querySelectorAll('.fade-in');
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      fadeElements.forEach(el => observer.observe(el));
+    }
+
+    // Typing animation for hero description
+    function setupTypingAnimation() {
+      const descriptionElement = document.getElementById('typingDescription');
+      const texts = [
+        "I'm a Computer Science student at ESPRIT, passionate about Cloud Computing, DevOps, and Artificial Intelligence.",
+        "I specialize in building scalable solutions and solving complex problems with modern cloud and AI technologies.",
+        "Let's create something amazing together."
+      ];
+      
+      let textIndex = 0;
+      let charIndex = 0;
+      let currentText = '';
+      let isDeleting = false;
+      
+      function type() {
+        const current = textIndex % texts.length;
+        const fullText = texts[current];
+        
+        if (isDeleting) {
+          currentText = fullText.substring(0, charIndex - 1);
+          charIndex--;
+        } else {
+          currentText = fullText.substring(0, charIndex + 1);
+          charIndex++;
+        }
+        
+        descriptionElement.innerHTML = currentText + '<span class="typing-text"></span>';
+        
+        let typeSpeed = 50;
+        
+        if (isDeleting) {
+          typeSpeed /= 2;
+        }
+        
+        if (!isDeleting && charIndex === fullText.length) {
+          typeSpeed = 2000;
+          isDeleting = true;
+        } else if (isDeleting && charIndex === 0) {
+          isDeleting = false;
+          textIndex++;
+          typeSpeed = 500;
+        }
+        
+        setTimeout(type, typeSpeed);
+      }
+      
+      setTimeout(type, 1000);
+    }
+
+    // Project modal functionality
+    function setupProjectModals() {
+      const modal = document.getElementById('projectModal');
+      const closeModal = document.getElementById('closeModal');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalDescription = document.getElementById('modalDescription');
+      const modalTechnologies = document.getElementById('modalTechnologies');
+      
+      const projectDetails = {
+        shadowhire: {
+          title: "ShadowHire – AI-Powered Job Matching Platform",
+          description: `
+            <p><strong>Project Period:</strong> Jul 2025 - Present</p>
+            <p>ShadowHire is an advanced AI-powered recruitment platform designed to transform the hiring process through intelligent automation and machine learning. The platform bridges the gap between candidates and recruiters with smart, data-driven solutions.</p>
+            
+            <h4>Key Features:</h4>
+            <ul>
+              <li><strong>Resume Parsing & NER Extraction:</strong> Advanced BERT multilingual model for extracting skills, education, and experience from resumes</li>
+              <li><strong>Automated CV Scoring:</strong> Intelligent scoring system with personalized feedback and improvement suggestions</li>
+              <li><strong>AI-Driven Job Matching:</strong> Semantic similarity algorithms for optimal candidate-job matching</li>
+              <li><strong>Bilingual Chatbot:</strong> RAG-based assistant (FR/EN) for candidate support and guidance</li>
+              <li><strong>Recruiter Dashboard:</strong> Comprehensive analytics, candidate management, and job posting tools</li>
+            </ul>
+            
+            <h4>Technical Architecture:</h4>
+            <p>The platform features a microservices architecture with Angular frontend, Django REST backend, and Flask microservices for AI capabilities. Containerized with Docker and deployed on Azure with full CI/CD pipelines using GitHub Actions and Jenkins. Monitoring is handled through Prometheus and Grafana for optimal performance tracking.</p>
+            
+            <p>ShadowHire represents the future of recruitment - transparent, efficient, and powered by cutting-edge AI technology.</p>
+          `,
+          technologies: ['Angular', 'Django', 'Flask', 'MySQL', 'Docker', 'Azure', 'Jenkins', 'Prometheus', 'Grafana', 'BERT', 'Transformers', 'HuggingFace', 'TF-IDF', 'Semantic Search', 'RAG', 'NLP']
+        },
+        naturelink: {
+          title: "NatureLink – Cloud-Native Tourism Platform",
+          description: `
+            <p><strong>Project Period:</strong> Oct 2024 - May 2025</p>
+            <p><strong>Associated with:</strong> ESPRIT (Ecole Supérieure Privée d'Ingénierie et de Technologies)</p>
+            
+            <p>NatureLink is a comprehensive tourism platform built on a sophisticated hybrid cloud infrastructure. This integration project involved designing and deploying a complete cloud ecosystem from the ground up.</p>
+            
+            <h4>Infrastructure & Deployment:</h4>
+            <ul>
+              <li><strong>OpenStack Cloud:</strong> Designed and deployed with 5 compute nodes, 1 controller, and 1 storage node</li>
+              <li><strong>Services:</strong> Keystone, Cinder, Heat, Swift, Octavia, Nova, Neutron</li>
+              <li><strong>Automation:</strong> Full infrastructure provisioning with Ansible playbooks</li>
+              <li><strong>Containerization:</strong> Docker containers orchestrated with Kubernetes</li>
+              <li><strong>Monitoring:</strong> Comprehensive monitoring stack with Prometheus and Grafana</li>
+              <li><strong>Hybrid Cloud:</strong> Deployed across OpenStack and Azure for optimal performance</li>
+            </ul>
+            
+            <h4>Platform Features:</h4>
+            <ul>
+              <li><strong>Full-Stack Application:</strong> Spring Boot backend with Angular frontend</li>
+              <li><strong>AI Integration:</strong> Face recognition, intelligent chatbots, image generation with DALL·E</li>
+              <li><strong>Personalized Recommendations:</strong> AI-powered suggestion engine for tourism activities</li>
+              <li><strong>Real-time Analytics:</strong> Comprehensive dashboard for platform insights</li>
+            </ul>
+            
+            <p>This project demonstrated end-to-end cloud infrastructure design, from bare metal to production deployment, showcasing expertise in cloud architecture, automation, and full-stack development.</p>
+          `,
+          technologies: ['OpenStack', 'Kubernetes', 'Spring Boot', 'Angular', 'Docker', 'Ansible', 'Prometheus', 'Grafana', 'Azure', 'Python', 'Flask', 'AI Integration', 'Face Recognition', 'Chatbots', 'DALL·E', 'Terraform', 'Git']
+        }
+      };
+      
+      // Add event listeners to read more buttons
+      document.querySelectorAll('.read-more-btn').forEach(button => {
+        button.addEventListener('click', () => {
+          const projectId = button.getAttribute('data-project');
+          const project = projectDetails[projectId];
+          
+          if (project) {
+            modalTitle.textContent = project.title;
+            modalDescription.innerHTML = project.description;
+            
+            // Clear and populate technologies
+            modalTechnologies.innerHTML = '';
+            project.technologies.forEach(tech => {
+              const tag = document.createElement('span');
+              tag.className = 'modal-tech-tag';
+              tag.textContent = tech;
+              modalTechnologies.appendChild(tag);
+            });
+            
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+          }
+        });
+      });
+      
+      // Close modal functionality
+      closeModal.addEventListener('click', () => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      });
+      
+      // Close modal when clicking outside
+      window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.style.display = 'none';
+          document.body.style.overflow = 'auto';
+        }
+      });
+    }
+
+    // Initialize everything when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      createBackground();
+      setupMobileMenu();
+      setupCVDownload();
+      setupScrollAnimations();
+      setupTypingAnimation();
+      setupProjectModals();
+      window.addEventListener('scroll', handleScroll);
+    });
+	// Typing animation for hero name and greeting
+function setupHeroTypingAnimation() {
+  const greetingElement = document.querySelector('.hero-greeting');
+  const nameElement = document.querySelector('.hero-name');
+  
+  // Store original texts
+  const originalGreeting = greetingElement.textContent;
+  const originalName = nameElement.textContent;
+  
+  // Clear texts for typing animation
+  greetingElement.textContent = '';
+  nameElement.textContent = '';
+  
+  let currentElement = greetingElement;
+  let currentText = originalGreeting;
+  let charIndex = 0;
+  
+  function typeHeroText() {
+    if (charIndex < currentText.length) {
+      currentElement.textContent += currentText.charAt(charIndex);
+      charIndex++;
+      setTimeout(typeHeroText, 100);
+    } else {
+      // Move to next element
+      if (currentElement === greetingElement) {
+        currentElement = nameElement;
+        currentText = originalName;
+        charIndex = 0;
+        setTimeout(typeHeroText, 500);
+      } else if (currentElement === nameElement) {
+        currentElement = titleElement;
+        currentText = originalTitle;
+        charIndex = 0;
+        setTimeout(typeHeroText, 500);
+      }
+      // Stop after title is typed
+    }
+  }
+  
+  // Start typing animation after a delay
+  setTimeout(typeHeroText, 1000);
+}
+// Initialize everything when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+  createBackground();
+  setupMobileMenu();
+  setupCVDownload();
+  setupScrollAnimations();
+  setupTypingAnimation();
+  setupHeroTypingAnimation(); // Add this line
+  setupProjectModals();
+  window.addEventListener('scroll', handleScroll);
+});
+  </script>
 </body>
 </html>

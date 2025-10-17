@@ -1,84 +1,1111 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Parcours</title>
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/style.css">
-  <script src="js/alerts.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aziz Mehdi | Education</title>
+  <link rel="icon" type="image/x-icon" href="img/mylogo.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #0d223f;
+      --secondary: #1a365d;
+      --accent: #64ffda;
+      --accent-light: #8affff;
+      --text-primary: #e6f1ff;
+      --text-secondary: #a8b2d1;
+      --card-bg: rgba(30, 61, 107, 0.7);
+      --transition: all 0.25s cubic-bezier(0.645, 0.045, 0.355, 1);
+      --glow: 0 0 15px rgba(100, 255, 218, 0.5);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Calibre', 'Inter', 'San Francisco', 'SF Pro Text', -apple-system, system-ui, sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--primary);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* Loading Screen */
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--primary);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+    .loading-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .loader {
+      width: 80px;
+      height: 80px;
+      position: relative;
+    }
+
+    .loader-square {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: var(--accent);
+      animation: loaderMove 1.5s infinite ease-in-out;
+    }
+
+    .loader-square:nth-child(1) { top: 0; left: 0; animation-delay: 0s; }
+    .loader-square:nth-child(2) { top: 0; right: 0; animation-delay: 0.2s; }
+    .loader-square:nth-child(3) { bottom: 0; right: 0; animation-delay: 0.4s; }
+    .loader-square:nth-child(4) { bottom: 0; left: 0; animation-delay: 0.6s; }
+
+    @keyframes loaderMove {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(0.5); opacity: 0.5; }
+    }
+
+    /* Dynamic Background */
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .bg-square {
+      position: absolute;
+      background: rgba(100, 255, 218, 0.05);
+      border: 1px solid rgba(100, 255, 218, 0.15);
+      border-radius: 5px;
+      animation: float 15s infinite linear;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+      50% { transform: translateY(-20px) rotate(180deg); opacity: 0.3; }
+      100% { transform: translateY(0) rotate(360deg); opacity: 0.7; }
+    }
+
+    /* Navigation */
+    .navigation {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 1.2rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: rgba(13, 34, 63, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      transition: var(--transition);
+      border-bottom: 1px solid rgba(100, 255, 218, 0.1);
+    }
+
+    .navigation.scrolled {
+      padding: 0.8rem 2rem;
+      box-shadow: 0 10px 30px -10px rgba(2, 12, 27, 0.7);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--accent);
+    }
+
+    .logo img {
+      height: 35px;
+      margin-right: 10px;
+      transition: var(--transition);
+    }
+
+    .logo:hover img {
+      transform: rotate(15deg);
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+    }
+
+    .nav-links li {
+      margin-left: 1.8rem;
+    }
+
+    .nav-links a {
+      color: var(--text-primary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      padding: 0.5rem 0;
+      position: relative;
+      transition: var(--transition);
+      font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--accent);
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--accent);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    /* Hero Section */
+    .education-hero {
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      padding: 8rem 2rem 4rem;
+      position: relative;
+      text-align: center;
+    }
+
+    .education-hero-content {
+      max-width: 1000px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .education-hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+      text-shadow: 0 0 10px rgba(100, 255, 218, 0.3);
+    }
+
+    .education-hero p {
+      font-size: 1.3rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Generation Animation */
+    .generation-animation {
+      display: inline-block;
+      position: relative;
+      color: var(--accent);
+    }
+
+    .generation-animation::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      bottom: -5px;
+      left: 0;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: bottom right;
+      transition: transform 0.5s ease-out;
+    }
+
+    .generation-animation.animate::after {
+      transform: scaleX(1);
+      transform-origin: bottom left;
+    }
+
+    /* Education Section */
+    .section {
+      padding: 4rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      margin-bottom: 3rem;
+      font-size: 2rem;
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+
+    .section-title::after {
+      content: '';
+      display: block;
+      height: 1px;
+      width: 300px;
+      background-color: var(--text-secondary);
+      margin-left: 1.5rem;
+      margin-top: 0.5rem;
+    }
+
+    /* Enhanced Timeline */
+    .education-timeline {
+      position: relative;
+      margin: 0 auto;
+      padding: 2rem 0;
+    }
+
+    .education-timeline::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(to bottom, var(--accent), var(--secondary));
+      transform: translateX(-50%);
+      border-radius: 10px;
+    }
+
+    .education-card {
+      background-color: var(--card-bg);
+      border-radius: 15px;
+      border: 1px solid rgba(100, 255, 218, 0.1);
+      transition: var(--transition);
+      position: relative;
+      box-shadow: 0 10px 30px -10px rgba(2, 12, 27, 0.7);
+      width: 45%;
+      margin: 2rem 0;
+      overflow: hidden;
+    }
+
+    .education-card:nth-child(odd) {
+      margin-right: 55%;
+    }
+
+    .education-card:nth-child(even) {
+      margin-left: 55%;
+    }
+
+    .education-card:hover {
+      transform: translateY(-10px);
+      border-color: var(--accent);
+      box-shadow: var(--glow);
+    }
+
+    .education-card::before {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: var(--accent);
+      border-radius: 50%;
+      top: 50%;
+      transform: translateY(-50%);
+      box-shadow: 0 0 15px rgba(100, 255, 218, 0.5);
+    }
+
+    .education-card:nth-child(odd)::before {
+      right: -32px;
+    }
+
+    .education-card:nth-child(even)::before {
+      left: -32px;
+    }
+
+    .education-content {
+      padding: 2rem;
+    }
+
+    .education-header {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 1.5rem;
+    }
+
+    .education-logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: contain;
+      border: 3px solid var(--accent);
+      box-shadow: 0 0 20px rgba(100, 255, 218, 0.3);
+      margin-right: 1.5rem;
+      background-color: white;
+      padding: 8px;
+    }
+
+    .education-info {
+      flex: 1;
+    }
+
+    .education-title {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .education-institution {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+    }
+
+    .education-period {
+      color: var(--accent);
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+    }
+
+    .education-description {
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .education-technologies {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tech-tag {
+      background: rgba(100, 255, 218, 0.1);
+      color: var(--accent);
+      padding: 0.4rem 1rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+      transition: var(--transition);
+    }
+
+    .tech-tag:hover {
+      background: rgba(100, 255, 218, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .education-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .read-more-btn {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 0.7rem 1.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+    }
+
+    .read-more-btn:hover {
+      background: rgba(100, 255, 218, 0.1);
+      transform: translateY(-2px);
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 25, 47, 0.95);
+      z-index: 2000;
+      overflow-y: auto;
+      padding: 2rem;
+    }
+
+    .modal-content {
+      background: var(--secondary);
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 3rem;
+      border-radius: 15px;
+      position: relative;
+      border: 1px solid var(--accent);
+      box-shadow: var(--glow);
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      color: var(--accent);
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: var(--transition);
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+
+    .close-modal:hover {
+      background: rgba(100, 255, 218, 0.1);
+      transform: rotate(90deg);
+    }
+
+    .modal-title {
+      font-size: 2.2rem;
+      margin-bottom: 1.5rem;
+      color: var(--accent);
+    }
+
+    .modal-period {
+      color: var(--accent);
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+      font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+    }
+
+    .modal-description {
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 2rem;
+      font-size: 1.1rem;
+    }
+
+    .modal-achievements {
+      list-style: none;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+    }
+
+    .modal-achievements li {
+      position: relative;
+      padding-left: 1.5rem;
+      margin-bottom: 0.8rem;
+      line-height: 1.6;
+    }
+
+    .modal-achievements li::before {
+      content: '▹';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+    }
+
+    /* Footer */
+    .footer {
+      padding: 3rem 2rem;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      border-top: 1px solid rgba(100, 255, 218, 0.1);
+      margin-top: 4rem;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .social-link {
+      color: var(--text-secondary);
+      font-size: 1.2rem;
+      transition: var(--transition);
+      width: 45px;
+      height: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(30, 61, 107, 0.5);
+    }
+
+    .social-link:hover {
+      color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: var(--glow);
+    }
+
+    /* Animations */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Light Effects */
+    .light-effect {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(100, 255, 218, 0.1) 0%, rgba(100, 255, 218, 0) 70%);
+      filter: blur(20px);
+      z-index: -1;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .navigation {
+        padding: 1rem;
+      }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: var(--primary);
+        flex-direction: column;
+        padding: 1rem 0;
+        box-shadow: 0 10px 30px -10px rgba(2, 12, 27, 0.7);
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .nav-links li {
+        margin: 0.5rem 0;
+        text-align: center;
+      }
+
+      .mobile-menu-btn {
+        display: block;
+      }
+
+      .education-timeline::before {
+        left: 20px;
+      }
+
+      .education-card {
+        width: 100%;
+        margin: 2rem 0;
+      }
+
+      .education-card:nth-child(odd),
+      .education-card:nth-child(even) {
+        margin-left: 40px;
+        margin-right: 20px;
+      }
+
+      .education-card::before {
+        left: -32px;
+      }
+
+      .education-header {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .education-logo {
+        margin-right: 0;
+        margin-bottom: 1rem;
+      }
+
+      .section-title::after {
+        width: 150px;
+      }
+
+      .education-hero {
+        padding: 6rem 1rem 3rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .education-card {
+        margin: 1rem 0.5rem;
+      }
+    }
+  </style>
 </head>
 <body>
+  <!-- Loading Screen -->
+  <div class="loading-screen" id="loadingScreen">
+    <div class="loader">
+      <div class="loader-square"></div>
+      <div class="loader-square"></div>
+      <div class="loader-square"></div>
+      <div class="loader-square"></div>
+    </div>
+  </div>
 
-	<!-- SECTION: Splashscreen -->
-	<div class="splashscreen">
-		<div class="preloader">
-			<span class="preloader__text">Loading</span>
-		</div>
-	</div>
-	<!-- END SECTION: Splashscreen -->
-	
-	<!-- SECTION: Intro -->
-	<header class="header">
-		<!-- SECTION: Navigation -->
-	<div id="top" class="navigation">
-		<div class="navigation__wrapper wrapper--large">
-			<a class="rot" class="navigation__logo logo" href="#0"><img src="img/logo.png" alt="" width="70"></a>
-			<nav class="navigation__container">
-				<ul class="navigation__list">
-					<li><a href="index.html">Home</a></li>
-					<li><a href="parcours.html">Academic Path</a></li>
-					<li><a href="experience.html">Experience</a></li>
-					<li><a href="contact.html">Info</a></li>
-				</ul>
-			</nav>
-            <a class="imgP" class="navigation__logo logo" href="#0"><img src="img/photo.png" alt="" width="70"></a>
+  <!-- Dynamic Background -->
+  <div class="bg-animation" id="bgAnimation"></div>
+  
+  <!-- Light Effects -->
+  <div class="light-effect" style="top: 10%; left: 10%;"></div>
+  <div class="light-effect" style="top: 60%; right: 10%;"></div>
 
-			
-			
-		</div>
-	</div>
-	<!-- END SECTION: Navigation -->
-	</header>
-	<!-- END SECTION: Intro -->
-	<main role="main">
-        <br><br><br><br>
-		<section id="contact" class="contact" >
-			<h2 class="contact__heading title">Academic Path</h2>
-			<hr>
-			
+  <!-- Navigation -->
+  <nav class="navigation" id="navigation">
+    <div class="logo">
+      <img src="img/mylogo.png" alt="Aziz Mehdi Logo">
+      <span>Aziz Mehdi</span>
+    </div>
+    
+    <ul class="nav-links">
+      <li><a href="index.html#home">Home</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#skills">Skills</a></li>
+      <li><a href="index.html#cv">Resume</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="experience.html">Experience</a></li>
+      <li><a href="projects.html">Projects</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+    
+    <button class="mobile-menu-btn" id="mobileMenuBtn">
+      <i class="fas fa-bars"></i>
+    </button>
+  </nav>
 
+  <!-- Education Hero Section -->
+  <section class="education-hero">
+    <div class="education-hero-content">
+      <h1 class="fade-in">My <span class="generation-animation">Education</span></h1>
+      <p class="fade-in">Academic journey in Computer Science Engineering and Preparatory Studies</p>
+    </div>
+  </section>
+
+  <!-- Education Section -->
+  <section class="section" id="education">
+    <h2 class="section-title fade-in">Academic Path</h2>
+    <div class="education-timeline">
+      <!-- ESPRIT -->
+      <div class="education-card fade-in">
+        <div class="education-content">
+          <div class="education-header">
+            <img src="img/esprit.png" alt="ESPRIT Logo" class="education-logo">
+            <div class="education-info">
+              <h3 class="education-title">
+                <i class="fas fa-graduation-cap"></i>
+                Computer Sciences Engineering, IT
+              </h3>
+              <div class="education-institution">ESPRIT School of Engineering</div>
+              <div class="education-period">Sep 2023 - Present</div>
+            </div>
+          </div>
+          <p class="education-description">
+            Pursuing an IT engineering degree with a focus on cloud computing, AI, and DevOps projects.
+          </p>
+          <div class="education-technologies">
+            <span class="tech-tag">Cloud Computing</span>
+            <span class="tech-tag">AI</span>
+            <span class="tech-tag">DevOps</span>
+            <span class="tech-tag">Angular</span>
+            <span class="tech-tag">Django</span>
+            <span class="tech-tag">Spring Boot</span>
+          </div>
+          <div class="education-links">
+            <button class="read-more-btn" data-education="esprit">
+              <i class="fas fa-external-link-alt"></i> Read More
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- FST -->
+      <div class="education-card fade-in">
+        <div class="education-content">
+          <div class="education-header">
+            <img src="img/fst.png" alt="FST Logo" class="education-logo">
+            <div class="education-info">
+              <h3 class="education-title">
+                <i class="fas fa-atom"></i>
+                MP Preparatory Cycle (2nd Year), Maths | Physics
+              </h3>
+              <div class="education-institution">Faculty of Science Manar (FST)</div>
+              <div class="education-period">Sep 2022 - Jun 2023</div>
+            </div>
+          </div>
+          <p class="education-description">
+            Completed the second year of MP Preparatory Cycle, studying quantum mechanics, Python, and SQL.
+          </p>
+          <div class="education-technologies">
+            <span class="tech-tag">Quantum Mechanics</span>
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">SQL</span>
+            <span class="tech-tag">Electronics</span>
+            <span class="tech-tag">Advanced Mathematics</span>
+          </div>
+          <div class="education-links">
+            <button class="read-more-btn" data-education="fst">
+              <i class="fas fa-external-link-alt"></i> Read More
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ISSAT -->
+      <div class="education-card fade-in">
+        <div class="education-content">
+          <div class="education-header">
+            <img src="img/issat.jpg" alt="ISSAT Logo" class="education-logo">
+            <div class="education-info">
+              <h3 class="education-title">
+                <i class="fas fa-flask"></i>
+                MP Preparatory Cycle (1st Year), Maths | Physics
+              </h3>
+              <div class="education-institution">Higher Institute of Applied Sciences and Technology Mahdia (ISSAT)</div>
+              <div class="education-period">Sep 2021 - Jun 2022</div>
+            </div>
+          </div>
+          <p class="education-description">
+           Completed the first year of the Mathematics-Physics (MP) Preparatory Cycle, building a strong foundation in advanced scientific and programming concepts.
+          </p>
+          <div class="education-technologies">
+            <span class="tech-tag">Advanced Algebra</span>
+            <span class="tech-tag">Calculus</span>
+            <span class="tech-tag">Classical Mechanics</span>
+            <span class="tech-tag">Chemistry</span>
+            <span class="tech-tag">Physics</span>
+          </div>
+          <div class="education-links">
+            <button class="read-more-btn" data-education="issat">
+              <i class="fas fa-external-link-alt"></i> Read More
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="social-links">
+      <a href="https://www.linkedin.com/in/aziz-mehdi-400a2a292/" class="social-link" target="_blank">
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+      <a href="https://github.com/nessmattcash" class="social-link" target="_blank">
+        <i class="fab fa-github"></i>
+      </a>
+      <a href="https://www.facebook.com/DeepFlowEsprit?locale=fr_FR" class="social-link" target="_blank">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+    </div>
+    <p>&copy; 2025 Aziz Mehdi. All Rights Reserved.</p>
+  </footer>
+
+  <!-- Education Modals -->
+  <div class="modal" id="educationModal">
+    <div class="modal-content">
+      <button class="close-modal" id="closeModal">&times;</button>
+      <h2 class="modal-title" id="modalTitle"></h2>
+      <p class="modal-period" id="modalPeriod"></p>
+      <div class="modal-description" id="modalDescription"></div>
+      <ul class="modal-achievements" id="modalAchievements"></ul>
+    </div>
+  </div>
+
+  <script>
+    // Loading Screen
+    window.addEventListener('load', function() {
+      const loadingScreen = document.getElementById('loadingScreen');
+      setTimeout(() => {
+        loadingScreen.classList.add('hidden');
+      }, 1000);
+    });
+
+    // Dynamic Background Animation
+    function createBackground() {
+      const bgAnimation = document.getElementById('bgAnimation');
+      const squareCount = 15;
+      
+      for (let i = 0; i < squareCount; i++) {
+        const square = document.createElement('div');
+        square.classList.add('bg-square');
+        
+        const size = Math.random() * 60 + 20;
+        square.style.width = `${size}px`;
+        square.style.height = `${size}px`;
+        square.style.left = `${Math.random() * 100}%`;
+        square.style.top = `${Math.random() * 100}%`;
+        
+        const duration = Math.random() * 20 + 10;
+        const delay = Math.random() * 5;
+        square.style.animationDuration = `${duration}s`;
+        square.style.animationDelay = `${delay}s`;
+        
+        bgAnimation.appendChild(square);
+      }
+    }
+
+    // Navigation scroll effect
+    function handleScroll() {
+      const navigation = document.getElementById('navigation');
+      if (window.scrollY > 50) {
+        navigation.classList.add('scrolled');
+      } else {
+        navigation.classList.remove('scrolled');
+      }
+    }
+
+    // Mobile menu toggle
+    function setupMobileMenu() {
+      const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+      const navLinks = document.querySelector('.nav-links');
+      
+      mobileMenuBtn.addEventListener('click', () => {
+        navLinks.classList.toggle('active');
+        mobileMenuBtn.innerHTML = navLinks.classList.contains('active') 
+          ? '<i class="fas fa-times"></i>' 
+          : '<i class="fas fa-bars"></i>';
+      });
+    }
+
+    // Fade-in animation on scroll
+    function setupScrollAnimations() {
+      const fadeElements = document.querySelectorAll('.fade-in');
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      fadeElements.forEach(el => observer.observe(el));
+    }
+
+    // Generation animation for title
+    function setupGenerationAnimation() {
+      const generationElement = document.querySelector('.generation-animation');
+      
+      setTimeout(() => {
+        generationElement.classList.add('animate');
+      }, 500);
+    }
+
+    // Hero animation
+    function setupHeroAnimation() {
+      const heroTitle = document.querySelector('.education-hero h1');
+      const heroSubtitle = document.querySelector('.education-hero p');
+      
+      // Store original content
+      const originalTitle = heroTitle.innerHTML;
+      const originalSubtitle = heroSubtitle.textContent;
+      
+      // Clear content
+      heroTitle.innerHTML = '';
+      heroSubtitle.textContent = '';
+      
+      // Animate "My" word
+      setTimeout(() => {
+        const mySpan = document.createElement('span');
+        mySpan.textContent = 'My';
+        mySpan.style.opacity = '0';
+        mySpan.style.transform = 'translateY(20px)';
+        mySpan.style.transition = 'all 0.6s ease';
+        heroTitle.appendChild(mySpan);
+        
+        // Add space after "My"
+        const spaceSpan = document.createElement('span');
+        spaceSpan.textContent = ' ';
+        spaceSpan.style.opacity = '0';
+        heroTitle.appendChild(spaceSpan);
+        
+        // Animate in
+        setTimeout(() => {
+          mySpan.style.opacity = '1';
+          mySpan.style.transform = 'translateY(0)';
+          spaceSpan.style.opacity = '1';
+        }, 100);
+      }, 500);
+      
+      // Animate "Education" with the existing generation animation
+      setTimeout(() => {
+        const educationSpan = document.createElement('span');
+        educationSpan.className = 'generation-animation';
+        educationSpan.textContent = 'Education';
+        educationSpan.style.opacity = '0';
+        educationSpan.style.transform = 'translateY(20px)';
+        educationSpan.style.transition = 'all 0.6s ease';
+        heroTitle.appendChild(educationSpan);
+        
+        // Animate in
+        setTimeout(() => {
+          educationSpan.style.opacity = '1';
+          educationSpan.style.transform = 'translateY(0)';
           
-            <center>
-            <div style="max-width: 1000px; text-align: left;">
-                        
-                    <img class="imgP" src="img/esprit.png" alt="Your Image" width="100"  style="max-width: 100%; height: auto; float: left; margin-right: 20px;">
-                    <a href="#"><h3 onclick="showAlertESPRIT()">ESPRIT</h3></a>
-                    <p class="text">Computer Sciences Engineering, IT (September 2023 - Present)</p><br>
-                    <img class="imgP" src="img/fst.png" alt="Your Image" width="100"  style="max-width: 100%; height: auto; float: left; margin-right: 20px;">
-                    <a href="#"><h3 onclick="showAlertFST()">Faculty of Science Manar (FST)</h3></a>
-                    <p class="text">Diploma Preparatory Cycle, Maths | Physics (September 2022 - June 2023)</p><br>
-                    <img class="imgP" src="img/issat.jpg" alt="Your Image" width="100"  style="max-width: 100%; height: auto; float: left; margin-right: 20px;">
-                    <a href="#"><h3 onclick="showAlertIssat()">Higher Institute of Applied Sciences and Technology Mahdia (ISSAT)</h3></a>
-                    <p class="text">1st year Preparatory Cycle (1st year), Maths | Physics (September 2020 - June 2022)</p>
-                    
-            </div>  
-        </center>
-             
-           
-		</section>
-		
-		
-	</main>
-	<!-- SECTION: Footer -->
-	<footer class="footer">
-		<div class="footer__wrapper wrapper--large">
-			<p class="footer__copyright no-margin">&copy; 2023 -Esprit</p>
-			
-		</div>
-	</footer>
-	<!-- END SECTION: Footer -->
+          // Trigger the underline animation after fade in
+          setTimeout(() => {
+            educationSpan.classList.add('animate');
+          }, 300);
+        }, 100);
+      }, 800);
+      
+      // Animate subtitle word by word
+      const subtitleWords = originalSubtitle.split(' ');
+      heroSubtitle.textContent = '';
+      
+      subtitleWords.forEach((word, index) => {
+        setTimeout(() => {
+          const wordSpan = document.createElement('span');
+          wordSpan.textContent = word + (index < subtitleWords.length - 1 ? ' ' : '');
+          wordSpan.style.opacity = '0';
+          wordSpan.style.transform = 'translateY(10px)';
+          wordSpan.style.transition = 'all 0.5s ease';
+          heroSubtitle.appendChild(wordSpan);
+          
+          // Animate in
+          setTimeout(() => {
+            wordSpan.style.opacity = '1';
+            wordSpan.style.transform = 'translateY(0)';
+          }, 50);
+        }, 1200 + (index * 100));
+      });
+    }
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-	<script src="js/functions-min.js"></script>
+    // Education modal functionality
+    function setupEducationModals() {
+      const modal = document.getElementById('educationModal');
+      const closeModal = document.getElementById('closeModal');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalPeriod = document.getElementById('modalPeriod');
+      const modalDescription = document.getElementById('modalDescription');
+      const modalAchievements = document.getElementById('modalAchievements');
+      
+      const educationDetails = {
+        esprit: {
+          title: "Computer Sciences Engineering, IT - ESPRIT",
+          period: "Sep 2023 - Present",
+          description: `
+            <p>Tunis, Tunisia · On-site</p>
+            <p>Enrolled in an intensive IT engineering program at ESPRIT School of Engineering, focusing on cloud computing, AI, and DevOps, with participation in competitive hackathons and hands-on projects.</p>
+          `,
+          achievements: [
+            "Developed cloud-based AI solutions, including an AI agent for web automation using Python",
+            "Built a Django application for equipment and user role management with responsive UI",
+            "Participated in IAHackFlow and Sbiba Hackathon, developing innovative DevOps and AI projects",
+            "Mastered frameworks like Angular, Django, and Spring Boot for full-stack development",
+            "Implemented CI/CD pipelines using AWS, Docker, and Jenkins for scalable deployments",
+            "Collaborated on Agile-driven team projects, enhancing skills in Git and teamwork"
+          ]
+        },
+        fst: {
+          title: "MP Preparatory Cycle (2nd Year), Maths | Physics - FST",
+          period: "Sep 2022 - Jun 2023",
+          description: `
+            <p>Manar, Tunis, Tunisia · On-site</p>
+            <p>Completed the second year of the Mathematics-Physics (MP) Preparatory Cycle, studying advanced scientific and programming concepts, qualifying for ESPRIT via the Concours National.</p>
+          `,
+          achievements: [
+            "Studied quantum mechanics, wave physics, and electromagnetism in advanced physics courses",
+            "Developed Python programming skills for numerical simulations and data analysis",
+            "Learned SQL for database management and querying in practical lab sessions",
+            "Completed coursework in electronics, focusing on circuit design and analysis",
+            "Qualified for ESPRIT through successful performance in the National Concours",
+            "Engaged in rigorous problem-solving in advanced algebra and analysis"
+          ]
+        },
+        issat: {
+          title: "MP Preparatory Cycle (1st Year), Maths | Physics - ISSAT",
+          period: "Sep 2021 - Jun 2022",
+          description: `
+            <p>Mahdia, Tunisia · On-site</p>
+            <p>Completed the first year of the Mathematics-Physics (MP) Preparatory Cycle, building a strong foundation in advanced scientific and programming concepts.</p>
+          `,
+          achievements: [
+            "Mastered advanced algebra, calculus, and classical mechanics coursework",
+            "Studied chemistry, focusing on chemical reactions and thermodynamics",
+            "Conducted physics labs on mechanics and electronics, enhancing practical skills",
+            "Qualifying for FST's second year",
+            "Developed analytical skills through complex mathematical problem sets",
+            "Completed practical experiments in electronics and physics laboratories"
+          ]
+        }
+      };
+      
+      document.querySelectorAll('.read-more-btn').forEach(button => {
+        button.addEventListener('click', () => {
+          const educationId = button.getAttribute('data-education');
+          const education = educationDetails[educationId];
+          
+          if (education) {
+            modalTitle.textContent = education.title;
+            modalPeriod.textContent = education.period;
+            modalDescription.innerHTML = education.description;
+            
+            modalAchievements.innerHTML = '';
+            education.achievements.forEach(achievement => {
+              const li = document.createElement('li');
+              li.textContent = achievement;
+              modalAchievements.appendChild(li);
+            });
+            
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+          }
+        });
+      });
+      
+      closeModal.addEventListener('click', () => {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+      });
+      
+      window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.style.display = 'none';
+          document.body.style.overflow = 'auto';
+        }
+      });
+    }
 
+    // Initialize everything when DOM is loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      createBackground();
+      setupMobileMenu();
+      setupScrollAnimations();
+      setupGenerationAnimation();
+      setupHeroAnimation();
+      setupEducationModals();
+      window.addEventListener('scroll', handleScroll);
+    });
+  </script>
 </body>
 </html>
