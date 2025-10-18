@@ -883,7 +883,16 @@
       }
 
       .nav-links.active {
-        display: flex;
+         display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: var(--primary);
+    padding: 1rem 0;
+    box-shadow: 0 10px 30px -10px rgba(2, 12, 27, 0.7);
+    z-index: 999;
       }
 
       .nav-links li {
@@ -1619,12 +1628,34 @@ document.addEventListener('DOMContentLoaded', () => {
   createBackground();
   setupMobileMenu();
   setupCVDownload();
+  setupMobileMenu();
   setupScrollAnimations();
   setupTypingAnimation();
   setupHeroTypingAnimation(); // Add this line
   setupProjectModals();
   window.addEventListener('scroll', handleScroll);
 });
+function setupMobileMenu() {
+  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+  const navLinks = document.querySelector('.nav-links');
+  
+  if (mobileMenuBtn && navLinks) {
+    mobileMenuBtn.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+      mobileMenuBtn.innerHTML = navLinks.classList.contains('active') 
+        ? '<i class="fas fa-times"></i>' 
+        : '<i class="fas fa-bars"></i>';
+    });
+    
+    // Close menu when clicking a nav link
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+        mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+      });
+    });
+  }
+}
   </script>
 </body>
 </html>
