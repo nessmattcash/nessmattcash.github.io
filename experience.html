@@ -952,6 +952,40 @@
   background: rgba(100, 255, 218, 0.1);
   transform: translateY(-2px);
 }
+/* Add this to your existing modal styles or create new ones */
+.certificate-modal-img {
+  width: 100%;
+  max-width: 800px;
+  border-radius: 10px;
+  margin: 1rem 0;
+  border: 1px solid rgba(100, 255, 218, 0.2);
+  box-shadow: 0 10px 30px -10px rgba(2, 12, 27, 0.7);
+}
+
+.certificate-modal-content {
+  text-align: center;
+}
+/* Add this to fix the button styling */
+.certificate-link.view-certificate-btn {
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  cursor: pointer;
+  font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+  font-size: 0.9rem;
+  text-decoration: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 4px;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.certificate-link.view-certificate-btn:hover {
+  background: rgba(100, 255, 218, 0.1);
+  transform: translateY(-2px);
+}
   </style>
 </head>
 <body>
@@ -1109,8 +1143,49 @@
         <div class="certificate-issuer">NVIDIA</div>
         <a href="https://learn.nvidia.com/certificates?id=tDlxAn_ZQpikKcUpgfvCYg" class="certificate-link" target="_blank">
           <i class="fas fa-certificate"></i> View Certificate
+        </a> 
+      </div>
+      <div class="certificate-card fade-in">
+        <img src="img/Nvidia.jpg" alt="NVIDIA Logo" class="certificate-logo">
+        <h3 class="certificate-title">Building RAG Agents with LLMs</h3>
+        <div class="certificate-issuer">NVIDIA</div>
+        <a href="https://learn.nvidia.com/certificates?id=3Y1LepUXQvSgGODGISaYfw" class="certificate-link" target="_blank">
+          <i class="fas fa-certificate"></i> View Certificate
         </a>
       </div>
+      <div class="certificate-card fade-in">
+        <img src="img/cisco.png" alt="cisco Logo" class="certificate-logo">
+        <h3 class="certificate-title">Cisco Certified Network Security</h3>
+        <div class="certificate-issuer">CISCO</div>
+        <a href="https://www.credly.com/badges/ba4c3766-6593-45d3-bc04-d5381db0181e" class="certificate-link" target="_blank">
+          <i class="fas fa-certificate"></i> View Certificate
+        </a>
+      </div>
+    
+      <div class="certificate-card fade-in">
+        <img src="img/aws.jpg" alt="AWS Logo" class="certificate-logo">
+        <h3 class="certificate-title">AWS Cloud Operations</h3>
+        <div class="certificate-issuer">AWS</div>
+        <a href="https://www.credly.com/badges/914da4ff-8f0e-4c0a-a82a-634bf1ec33cb" class="certificate-link" target="_blank">
+          <i class="fas fa-certificate"></i> View Certificate
+        </a>
+      </div>
+      <div class="certificate-card fade-in">
+        <img src="img/aws.jpg" alt="AWS Logo" class="certificate-logo">
+        <h3 class="certificate-title">AWS Cloud Security</h3>
+        <div class="certificate-issuer">AWS</div>
+        <a href="https://www.credly.com/badges/09d26d5f-05bf-4652-a18e-5e95f4d81e1b" class="certificate-link" target="_blank">
+          <i class="fas fa-certificate"></i> View Certificate
+        </a>
+      </div>
+      <div class="certificate-card fade-in">
+  <img src="img/hashgraph.jpg" alt="Hashgraph Logo" class="certificate-logo">
+  <h3 class="certificate-title">Hashgraph Associate Certification</h3>
+  <div class="certificate-issuer">Hedera</div>
+   <button class="certificate-link view-certificate-btn" data-certificate="hashgraph">
+    <i class="fas fa-certificate"></i> View Certificate
+  </button>
+</div>
     </div>
   </section>
 
@@ -1501,11 +1576,54 @@
         }
       });
     }
+    // Add this function to your existing JavaScript
+function setupCertificateViewer() {
+  const modal = document.getElementById('experienceModal');
+  const closeModal = document.getElementById('closeModal');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalContent = document.querySelector('.modal-content');
+  
+  document.querySelectorAll('.view-certificate-btn').forEach(button => {
+    button.addEventListener('click', () => {
+      const certificateId = button.getAttribute('data-certificate');
+      
+      if (certificateId === 'hashgraph') {
+        modalTitle.textContent = "Hashgraph Associate Certification";
+        
+        // Create certificate modal content
+        const modalContentHTML = `
+          <button class="close-modal" id="closeModal">&times;</button>
+          <h2 class="modal-title">Hashgraph Associate Certification</h2>
+          <p class="modal-period">Hedera Hashgraph</p>
+          <div class="certificate-modal-content">
+            <img src="img/hash.png" alt="Hashgraph Certificate" class="certificate-modal-img">
+            <p class="modal-description">Hedera Hashgraph Associate Certification demonstrating proficiency in distributed ledger technology.</p>
+            <a href="img/hash.png" class="certificate-link" download="Hashgraph_Certificate_Aziz_Mehdi.png" style="margin-top: 1.5rem;">
+              <i class="fas fa-download"></i> Download Certificate
+            </a>
+          </div>
+        `;
+        
+        modalContent.innerHTML = modalContentHTML;
+        
+        // Re-attach close event to the new button
+        document.querySelector('.close-modal').addEventListener('click', () => {
+          modal.style.display = 'none';
+          document.body.style.overflow = 'auto';
+        });
+        
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+      }
+    });
+  });
+}
 
     // Initialize everything when DOM is loaded
     document.addEventListener('DOMContentLoaded', () => {
       createBackground();
       setupMobileMenu();
+      setupCertificateViewer(); 
       setupScrollAnimations();
       setupGenerationAnimation();
       setupHeroAnimation();
