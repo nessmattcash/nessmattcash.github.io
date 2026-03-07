@@ -729,6 +729,47 @@
   <section class="section" id="projects">
     <h2 class="section-title fade-in">Featured Projects</h2>
     <div class="projects-grid">
+      <!-- ── AI Visibility Tracker (NEW – placed first as most recent/advanced) ── -->
+      <div class="project-card fade-in">
+        <div class="project-image-container">
+          <!-- Replace this src with your real screenshot when ready -->
+          <img src="img/prj.png" alt="AI Visibility Tracker" class="project-image">
+          <!-- If no screenshot yet, you can use a placeholder or even the favicon temporarily -->
+          <!-- <img src="favicon.ico" alt="AI Visibility Tracker" class="project-image"> -->
+        </div>
+        <div class="project-content">
+          <h3 class="project-title">
+            <i class="fas fa-brain"></i>
+            AI Visibility Tracker – LLM Brand Intelligence Platform
+          </h3>
+          <p class="project-period">Mar 2026 – Present</p>
+          <p class="project-description">
+            Full-stack tool that quantifies how well brands are perceived and recommended by leading LLMs (ChatGPT, Claude, Gemini via Groq). Automatically generates sector-specific queries, analyzes mentions (position, sentiment, intent), extracts competitors with AI filtering, computes an explainable visibility score, and provides optimization recommendations.
+          </p>
+          <div class="project-technologies">
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">Flask</span>
+            <span class="tech-tag">Groq API</span>
+            <span class="tech-tag">Llama Models</span>
+            <span class="tech-tag">JavaScript</span>
+            <span class="tech-tag">HTML/CSS</span>
+            <span class="tech-tag">NLP</span>
+            <span class="tech-tag">Web Scraping</span>
+          </div>
+          <div class="project-links">
+            <!-- Replace with your REAL GitHub repo link when you push it -->
+            <a href="https://github.com/nessmattcash/ai-visibility-tracker" class="project-link" target="_blank">
+              <i class="fab fa-github"></i> View Code
+            </a>
+            <button class="read-more-btn" data-project="ai-visibility-tracker">
+              <i class="fas fa-external-link-alt"></i> Read More
+            </button>
+          </div>
+        </div>
+      </div>
+
+
+
       <!-- ShadowHire Project -->
       <div class="project-card fade-in">
         <div class="project-image-container">
@@ -739,7 +780,7 @@
             <i class="fas fa-robot"></i>
             ShadowHire – AI-Powered Job Matching Platform
           </h3>
-          <p class="project-period">Jul 2025 - Present</p>
+          <p class="project-period">Jul 2025 - Jan 2026</p>
           <p class="project-description">
             An advanced AI-powered recruitment platform that transforms hiring through intelligent automation. Features resume parsing with BERT, automated CV scoring, semantic job matching, and bilingual chatbot assistance.
           </p>
@@ -1074,6 +1115,40 @@
       const modalTechnologies = document.getElementById('modalTechnologies');
       
       const projectDetails = {
+      "ai-visibility-tracker": {
+        title: "AI Visibility Tracker – LLM Brand Intelligence Platform",
+        period: "March 2026 – Present",
+        description: `
+          <p>AI Visibility Tracker is a sophisticated full-stack web application that measures and optimizes brand visibility inside Large Language Models (ChatGPT, Claude, Gemini via Groq API).</p>
+          
+          <h4>🎯 Core Capabilities:</h4>
+          <ul>
+            <li>Automatic sector detection and generation of realistic user-like queries</li>
+            <li>Parallel querying of multiple LLMs with rate-limit handling & fallback</li>
+            <li>Advanced mention detection (position, sentiment, intent classification)</li>
+            <li>AI-powered competitor extraction & filtering (strict prompt engineering)</li>
+            <li>Explainable 5-dimension visibility scoring model (mention rate, position, sentiment, competitor pressure, authority)</li>
+            <li>Dynamic, personalized optimization recommendations with why & how</li>
+          </ul>
+          
+          <h4>🔧 Technical Highlights:</h4>
+          <ul>
+            <li>Backend: Python + Flask API with Groq integration (Llama 3.3 70B, Llama 3.1 8B, etc.)</li>
+            <li>Frontend: Vanilla JavaScript + responsive CSS (no framework)</li>
+            <li>AI Techniques: Prompt engineering, fuzzy matching, regex + context analysis</li>
+            <li>Robustness: Rate-limit backoff, fallback models, error classification</li>
+            <li>Features: Intent segmentation, trend tracking, competitor dominance profiling</li>
+          </ul>
+          
+          <p>Built to help brands understand and improve their presence in the age of AI assistants — one of my most ambitious personal projects combining web development, API orchestration, and modern NLP techniques.</p>
+        `,
+        technologies: [
+          'Python', 'Flask', 'Groq API', 'Llama 3', 'JavaScript', 'HTML5', 'CSS3',
+          'NLP', 'Prompt Engineering', 'Rate Limiting', 'REST API', 'Responsive Design'
+        ]
+      },
+
+
         shadowhire: {
           title: "ShadowHire – AI-Powered Job Matching Platform",
           period: "Jul 2025 - Present",
