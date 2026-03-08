@@ -986,6 +986,93 @@
   background: rgba(100, 255, 218, 0.1);
   transform: translateY(-2px);
 }
+/* ── Redesigned Skills Section ── */
+.skills-categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-top: 2.5rem;
+}
+
+.skills-card {
+  background: linear-gradient(135deg, rgba(30, 61, 107, 0.85), rgba(26, 54, 93, 0.85));
+  border-radius: 16px;
+  border: 1px solid rgba(100, 255, 218, 0.15);
+  padding: 1.8rem 1.5rem;
+  box-shadow: 0 8px 32px rgba(2, 12, 27, 0.5);
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  backdrop-filter: blur(8px);
+}
+
+.skills-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(100, 255, 218, 0.18);
+  border-color: var(--accent);
+}
+
+.skills-card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(100, 255, 218, 0.12);
+}
+
+.skills-card-icon {
+  font-size: 1.8rem;
+  margin-right: 1rem;
+  color: var(--accent);
+}
+
+.skills-card h3 {
+  font-size: 1.35rem;
+  color: var(--accent);
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 1rem;
+}
+
+.skill-pill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(100, 255, 218, 0.08);
+  border: 1px solid rgba(100, 255, 218, 0.15);
+  border-radius: 12px;
+  padding: 1rem 0.8rem;
+  transition: all 0.3s ease;
+  text-align: center;
+  min-height: 90px;
+  backdrop-filter: blur(4px);
+}
+
+.skill-pill:hover {
+  background: rgba(100, 255, 218, 0.15);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(100, 255, 218, 0.2);
+}
+
+.skill-pill i {
+  font-size: 1.6rem;
+  color: var(--accent);
+  margin-bottom: 0.6rem;
+}
+
+.skill-pill span {
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  word-break: break-word;
+  max-width: 100%;
+  line-height: 1.3;
+}
   </style>
 </head>
 <body>
@@ -1041,6 +1128,51 @@
   <section class="section" id="experience">
     <h2 class="section-title fade-in">Professional Experience</h2>
     <div class="experience-timeline">
+      <!-- PFE — Système d'Information Hospitalier (NEW – placed first) -->
+      <div class="experience-card fade-in">
+        <div class="experience-content">
+          <div class="experience-header">
+            <!-- Use a hospital/medical icon or your own logo if you have one -->
+            <img src="img/eyy.png" alt="HIS PFE Logo" class="experience-logo pfe">
+            <!-- If no image yet: <i class="fas fa-hospital fa-3x" style="color:#00aaff;margin-right:1.5rem;"></i> -->
+            <div class="experience-info">
+              <h3 class="experience-title">
+                <i class="fas fa-hospital"></i>
+                End-of-Studies Project – Full Hospital Information System
+              </h3>
+              <div class="experience-company">EY · Internship</div>
+              <div class="experience-period">February 2026 – August 2026 · 6 months</div>
+            </div>
+          </div>
+          <p class="experience-description">
+            Designed, developed, and deployed a complete modern Hospital Information System (HIS) integrating OpenMRS, OpenEMR, DHIS2, OpenLMIS, HAPI FHIR, Kong Gateway, Keycloak, and custom AI microservices. The project followed a rigorous decision model: <strong>pull official images</strong> for core EMRs, <strong>configure</strong> via IaC, and <strong>develop from scratch</strong> critical custom components (FHIR Adapter + Unified React Portal).
+          </p>
+          <div class="experience-technologies">
+            <span class="tech-tag">OpenMRS</span>
+            <span class="tech-tag">DHIS2</span>
+            <span class="tech-tag">HAPI FHIR</span>
+            <span class="tech-tag">Kong Gateway</span>
+            <span class="tech-tag">Keycloak</span>
+            <span class="tech-tag">Node.js / Express</span>
+            <span class="tech-tag">React</span>
+            <span class="tech-tag">Docker / Kubernetes</span>
+            <span class="tech-tag">Prometheus / Grafana</span>
+            <span class="tech-tag">HAProxy</span>
+            <span class="tech-tag">GitHub Actions</span>
+            <span class="tech-tag">AI Microservices</span>
+          </div>
+          <div class="experience-links">
+            <button class="experience-link read-more-btn" data-experience="pfe-his">
+              <i class="fas fa-external-link-alt"></i> Read More
+            </button>
+            <!-- Add GitHub link when you push the repo -->
+            <!-- <a href="https://github.com/nessmattcash/his-pfe" class="experience-link" target="_blank">
+              <i class="fab fa-github"></i> Repository
+            </a> -->
+          </div>
+        </div>
+      </div>
+
       <!-- Verse Internship -->
       <div class="experience-card fade-in">
         <div class="experience-content">
@@ -1190,61 +1322,114 @@
   </section>
 
   <!-- Skills Section -->
-  <section class="section" id="skills">
-    <h2 class="section-title fade-in">Skills & Technologies</h2>
-    <div class="skills-categories">
-      <div class="skills-category fade-in">
-        <h3 class="category-title"><i class="fas fa-cloud"></i> Cloud & DevOps</h3>
-        <div class="skills-grid">
-          <div class="skill-item"><div class="skill-icon"><i class="fab fa-aws"></i></div><div class="skill-name">AWS</div></div>
-          <div class="skill-item"><div class="skill-icon"><i class="fas fa-cloud"></i></div><div class="skill-name">Azure</div></div>
-          <div class="skill-item"><div class="skill-icon"><i class="fab fa-docker"></i></div><div class="skill-name">Docker</div></div>
-          <div class="skill-item"><div class="skill-icon"><i class="fas fa-cubes"></i></div><div class="skill-name">Kubernetes</div></div>
-          <div class="skill-item"><div class="skill-icon"><i class="fab fa-jenkins"></i></div><div class="skill-name">Jenkins</div></div>
-          <div class="skill-item"><div class="skill-icon"><i class="fas fa-code-branch"></i></div><div class="skill-name">GitHub Actions</div></div>
-          <div class="skill-item"><div class="skill-icon"><i class="fas fa-server"></i></div><div class="skill-name">Terraform</div></div>
-          <div class="skill-item"><div class="skill-icon"><i class="fas fa-cogs"></i></div><div class="skill-name">Ansible</div></div>
-          <div class="skill-item"><div class="skill-icon"><i class="fab fa-linux"></i></div><div class="skill-name">Linux</div></div>
-        </div>
+<section class="section" id="skills">
+  <h2 class="section-title fade-in">Skills & Technologies</h2>
+  
+  <div class="skills-categories-grid">
+    <!-- 1. Cloud & DevOps -->
+    <div class="skills-card fade-in">
+      <div class="skills-card-header">
+        <i class="fas fa-cloud skills-card-icon"></i>
+        <h3>Cloud & DevOps</h3>
       </div>
-      <div class="skills-category fade-in">
-        <h3 class="category-title"><i class="fas fa-code"></i> Frameworks & Languages</h3>
-        <div class="skills-grid">
-          <div class="skill-item"><div class="skill-icon"><i class="fab fa-python"></i></div><div class="skill-name">Python</div></div>
-          <div class="skill-item"><div class="skill-icon"><i class="fab fa-java"></i></div><div class="skill-name">Java</div></div>
-          <div class="skill-item"><div class="skill-icon"><i class="fab fa-js"></i></div><div class="skill-name">JavaScript</div></div>
-          <div class="skill-item"><div class="skill-icon"><i class="fas fa-code"></i></div><div class="skill-name">C</div></div>
-          <div class="skill-item"><div class="skill-icon"><i class="fas fa-code"></i></div><div class="skill-name">C#</div></div>
-          <div class="skill-item"><div class="skill-icon"><i class="fab fa-angular"></i></div><div class="skill-name">Angular</div></div>
-          <div class="skill-item"><div class="skill-icon"><i class="fas fa-leaf"></i></div><div class="skill-name">Spring Boot</div></div>
-          <div class="skill-item"><div class="skill-icon"><i class="fab fa-python"></i></div><div class="skill-name">Django</div></div>
-          <div class="skill-item"><div class="skill-icon"><i class="fas fa-mobile"></i></div><div class="skill-name">Flutter</div></div>
-          <div class="skill-item"><div class="skill-icon"><i class="fab fa-react"></i></div><div class="skill-name">Next.js</div></div>
-        </div>
-      </div>
-      <div class="skills-category fade-in">
-        <h3 class="category-title"><i class="fas fa-brain"></i> AI & Machine Learning</h3>
-        <div class="skills-grid">
-          <div class="skill-item"><div class="skill-icon"><i class="fas fa-brain"></i></div><div class="skill-name">Machine Learning</div></div>
-          <div class="skill-item"><div class="skill-icon"><i class="fas fa-robot"></i></div><div class="skill-name">Deep Learning</div></div>
-          <div class="skill-item"><div class="skill-icon"><i class="fas fa-chart-line"></i></div><div class="skill-name">MLflow</div></div>
-          <div class="skill-item"><div class="skill-icon"><i class="fas fa-network-wired"></i></div><div class="skill-name">Transformers</div></div>
-        </div>
-      </div>
-      <div class="skills-category fade-in">
-        <h3 class="category-title"><i class="fas fa-tools"></i> Monitoring & Databases</h3>
-        <div class="skills-grid">
-          <div class="skill-item"><div class="skill-icon"><i class="fas fa-chart-bar"></i></div><div class="skill-name">Prometheus</div></div>
-          <div class="skill-item"><div class="skill-icon"><i class="fas fa-chart-pie"></i></div><div class="skill-name">Grafana</div></div>
-          <div class="skill-item"><div class="skill-icon"><i class="fas fa-database"></i></div><div class="skill-name">MySQL</div></div>
-          <div class="skill-item"><div class="skill-icon"><i class="fas fa-database"></i></div><div class="skill-name">PostgreSQL</div></div>
-          <div class="skill-item"><div class="skill-icon"><i class="fas fa-database"></i></div><div class="skill-name">MongoDB</div></div>
-          <div class="skill-item"><div class="skill-icon"><i class="fas fa-database"></i></div><div class="skill-name">MariaDB</div></div>
-        </div>
+      <div class="skills-grid">
+        <div class="skill-pill"><i class="fab fa-aws"></i>AWS</div>
+        <div class="skill-pill"><i class="fas fa-cloud"></i>Azure</div>
+        <div class="skill-pill"><i class="fab fa-docker"></i>Docker</div>
+        <div class="skill-pill"><i class="fas fa-cubes"></i>Kubernetes</div>
+        <div class="skill-pill"><i class="fab fa-jenkins"></i>Jenkins</div>
+        <div class="skill-pill"><i class="fas fa-code-branch"></i>GitHub Actions</div>
+        <div class="skill-pill"><i class="fas fa-server"></i>Terraform</div>
+        <div class="skill-pill"><i class="fas fa-cogs"></i>Ansible</div>
+        <div class="skill-pill"><i class="fab fa-linux"></i>Linux</div>
       </div>
     </div>
-  </section>
 
+    <!-- 2. Programming & Frameworks -->
+    <div class="skills-card fade-in">
+      <div class="skills-card-header">
+        <i class="fas fa-code skills-card-icon"></i>
+        <h3>Programming & Frameworks</h3>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-pill"><i class="fab fa-python"></i>Python</div>
+        <div class="skill-pill"><i class="fab fa-java"></i>Java</div>
+        <div class="skill-pill"><i class="fab fa-js"></i>JavaScript / TypeScript</div>
+        <div class="skill-pill"><i class="fab fa-angular"></i>Angular</div>
+        <div class="skill-pill"><i class="fas fa-leaf"></i>Spring Boot</div>
+        <div class="skill-pill"><i class="fab fa-python"></i>Django</div>
+        <div class="skill-pill"><i class="fab fa-react"></i>React / Next.js</div>
+        <div class="skill-pill"><i class="fas fa-mobile"></i>Flutter</div>
+        <div class="skill-pill"><i class="fas fa-code"></i>C / C#</div>
+      </div>
+    </div>
+
+    <!-- 3. AI & Generative AI -->
+    <div class="skills-card fade-in">
+      <div class="skills-card-header">
+        <i class="fas fa-brain skills-card-icon"></i>
+        <h3>AI & Generative AI</h3>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-pill"><i class="fas fa-robot"></i>LLMs</div>
+        <div class="skill-pill"><i class="fas fa-network-wired"></i>Transformers</div>
+        <div class="skill-pill"><i class="fas fa-language"></i>NLP </div>
+        <div class="skill-pill"><i class="fas fa-search"></i>RAG Pipelines</div>
+        <div class="skill-pill"><i class="fas fa-code-branch"></i>Prompt Engineering</div>
+        <div class="skill-pill"><i class="fas fa-brain"></i>LLM Fine-tuning</div>
+        <div class="skill-pill"><i class="fas fa-eye"></i>Computer Vision</div>
+        <div class="skill-pill"><i class="fas fa-cubes"></i>Hugging Face</div>
+        <div class="skill-pill"><i class="fas fa-link"></i>LangChain</div>
+      </div>
+    </div>
+
+    <!-- 4. MLOps & Data Pipelines -->
+    <div class="skills-card fade-in">
+      <div class="skills-card-header">
+        <i class="fas fa-cogs skills-card-icon"></i>
+        <h3>MLOps & Data Pipelines</h3>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-pill"><i class="fas fa-chart-line"></i>MLflow</div>
+        <div class="skill-pill"><i class="fas fa-database"></i>DVC</div>
+        <div class="skill-pill"><i class="fas fa-cogs"></i>FastAPI </div>
+        <div class="skill-pill"><i class="fas fa-flask"></i>Flask </div>
+        <div class="skill-pill"><i class="fas fa-project-diagram"></i>LlamaIndex</div>
+        <div class="skill-pill"><i class="fas fa-server"></i>Model Deployment</div>
+      </div>
+    </div>
+
+    <!-- 5. Monitoring & Observability -->
+    <div class="skills-card fade-in">
+      <div class="skills-card-header">
+        <i class="fas fa-chart-bar skills-card-icon"></i>
+        <h3>Monitoring & Observability</h3>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-pill"><i class="fas fa-chart-bar"></i>Prometheus</div>
+        <div class="skill-pill"><i class="fas fa-chart-pie"></i>Grafana</div>
+        <div class="skill-pill"><i class="fas fa-bell"></i>Alertmanager</div>
+        <div class="skill-pill"><i class="fas fa-eye"></i>OpenTelemetry</div>
+      </div>
+    </div>
+
+    <!-- 6. Databases & Infrastructure -->
+    <div class="skills-card fade-in">
+      <div class="skills-card-header">
+        <i class="fas fa-database skills-card-icon"></i>
+        <h3>Databases & Infrastructure</h3>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-pill"><i class="fas fa-database"></i>MySQL / MariaDB</div>
+        <div class="skill-pill"><i class="fas fa-database"></i>PostgreSQL</div>
+        <div class="skill-pill"><i class="fas fa-database"></i>MongoDB</div>
+        <div class="skill-pill"><i class="fas fa-server"></i>OpenStack</div>
+        <div class="skill-pill"><i class="fas fa-network-wired"></i>HAProxy</div>
+      </div>
+    </div>
+
+  </div>
+</section>
   <!-- Languages Section -->
   <section class="section" id="languages">
     <h2 class="section-title fade-in">Languages</h2>
@@ -1509,6 +1694,46 @@
       const modalAchievements = document.getElementById('modalAchievements');
       
       const experienceDetails = {
+
+        "pfe-his": {
+        title: "PFE – Système d'Information Hospitalier (HIS)",
+        period: "February 2026 – August 2026 · 7 months",
+        description: `
+          <p>End-of-studies project: Designed and implemented a modern, modular, interoperable Hospital Information System integrating world-class open-source EMRs, logistics, analytics, identity, API gateway, and custom AI microservices.</p>
+          
+          <h4>🏥 Core Architecture & Decisions:</h4>
+          <ul>
+            <li><strong>Pull & Configure</strong> official Docker images: OpenMRS, OpenEMR, DHIS2, OpenLMIS, HAPI FHIR</li>
+            <li><strong>Develop from scratch</strong>: FHIR Adapter microservice (Node.js/Express) and Unified React Portal</li>
+            <li><strong>API Management & Security</strong>: Kong Gateway + Keycloak SSO (OIDC/OAuth2)</li>
+            <li><strong>Observability</strong>: Prometheus + Grafana dashboards + HAProxy load balancing</li>
+            <li><strong>CI/CD & IaC</strong>: GitHub Actions pipelines, Docker Compose, declarative configs</li>
+            <li><strong>AI Microservices</strong>: Custom LLM-powered modules for clinical decision support, patient summarization, and predictive analytics (integrated via FastAPI or Flask)</li>
+          </ul>
+          
+          <h4>🚀 Key Achievements:</h4>
+          <ul>
+            <li>Built end-to-end FHIR R4 interoperability layer between legacy EMRs and modern analytics</li>
+            <li>Implemented secure, role-based access control (RBAC) across all modules via Keycloak</li>
+            <li>Deployed high-availability setup with HAProxy failover and health checks</li>
+            <li>Created comprehensive monitoring stack with custom Grafana dashboards for all services</li>
+            <li>Automated full CI/CD pipeline including unit, integration, SAST, DAST, and load testing (k6)</li>
+            <li>Designed AI microservices layer for future clinical intelligence capabilities</li>
+          </ul>
+          
+          <p>This project demonstrates deep expertise in healthcare IT, microservices architecture, FHIR interoperability, DevOps/MLOps practices, and modern cloud-native deployment.</p>
+        `,
+        achievements: [
+          "Designed and deployed modular HIS integrating 5+ major open-source health platforms",
+          "Developed custom FHIR Adapter microservice for real-time data harmonization",
+          "Built unified React portal with consistent UX across all hospital modules",
+          "Implemented Kong Gateway + Keycloak for secure API routing and SSO",
+          "Created full observability stack (Prometheus, Grafana, HAProxy)",
+          "Automated CI/CD with GitHub Actions, including security & performance testing",
+          "Integrated AI microservices layer for future LLM-powered clinical features"
+        ]
+      },
+    
         verse: {
           title: "Cloud & DevOps Intern - Verse",
           period: "Jun 2025 - Aug 2025 · 3 months",
